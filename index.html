@@ -567,8 +567,227 @@ body {
 }
 
 /* Saved package dropdown */
+/* ── Max items per package (parcel only; ported from Multi-Qty-v2) ── */
+/* ── Max Units V1 (Container) ────────────────────────────────────── */
+.max-units-v1-wrapper {
+  margin-top: 18px;
+}
+
+.max-units-v1-wrapper.hidden {
+  display: none;
+}
+
+.max-units-section {
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  margin-bottom: 18px;
+  background-color: #F3F3F3;
+}
+
+.max-units-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  cursor: pointer;
+}
+
+.max-units-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #436B93;
+}
+
+.max-units-checkbox input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.max-units-checkbox label {
+  margin: 0;
+  margin-left: 18px;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.max-units-checkbox label.disabled {
+  color: #888888;
+}
+
+
+.max-units-content {
+  display: none;
+}
+
+.max-units-content.visible {
+  display: block;
+  margin-top: 18px;
+}
+
+.max-units-input-wrapper {
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.max-units-input-wrapper input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  font-family: var(--font-2);
+  font-size: 14px;
+}
+
+.max-units-input-wrapper input:focus {
+  outline: none;
+  border-color: var(--color-blue-600);
+}
+
+.max-units-checkmark {
+  display: none !important;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: #00a651;
+  flex-shrink: 0;
+}
+
+.max-units-checkmark.visible {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.max-units-input-wrapper:has(.max-units-checkmark.visible) input {
+  border: 2px solid #66A559 !important;
+  outline: none;
+}
+
+
+.max-units-helper {
+  font-family: var(--font-2);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-grey-66);
+  margin-top: 5px;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+/* Single-quantity helper under Weight (ported from Multi-Qty v2) */
+.step-tooltip {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+}
+
+.tooltip-text {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-grey-53);
+  border-bottom: 1px dashed var(--color-grey-88);
+  cursor: help;
+  padding-bottom: 2px;
+}
+
+.tooltip-content {
+  visibility: hidden;
+  background-color: var(--color-grey-13);
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 6px 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  white-space: normal;
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-content::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--color-grey-13);
+}
+
+.step-tooltip:hover .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+.weight-helper {
+  position: relative;
+  margin-top: var(--sp-9); /* + 9px weight-row gap = 18px below the input */
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 1.5;
+  color: #222;
+}
+/* Inline flow so the label can wrap across lines and the dashed underline follows it */
+.weight-helper .step-tooltip {
+  position: static;
+  display: inline;
+  cursor: help;
+}
+.weight-helper .tooltip-text {
+  color: #222;
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 1.5;
+  border-bottom: none;
+  padding-bottom: 0;
+  text-decoration: underline dashed;
+  text-underline-offset: 3px;
+}
+/* Keeps the icon attached to the last word */
+.weight-helper-last { white-space: nowrap; }
+.weight-helper .weight-helper-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 2px;
+  vertical-align: middle;
+  cursor: help;
+}
+/* Anchor the tooltip to the helper block, since the trigger can span two lines */
+.weight-helper .tooltip-content {
+  left: 0;
+  transform: none;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 1.5;
+}
+.weight-helper .tooltip-content::after {
+  left: 24px;
+  transform: none;
+}
+
 .saved-pkg-section {
-  padding: var(--sp-27) 18px 0;
+  padding: var(--sp-18) 18px 0;
   display: flex;
   flex-direction: column;
   gap: var(--sp-9);
@@ -859,23 +1078,6 @@ body {
   font-weight: 600;
 }
 
-.add-inhome-link {
-  display: inline-block;
-  margin-top: var(--sp-9);
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--color-blue-600);
-  text-decoration: none;
-  cursor: pointer;
-}
-.add-inhome-link:hover { text-decoration: none; }
-
-.inhome-cols {
-  margin-top: var(--sp-9);
-  padding-top: var(--sp-9);
-  border-top: 1px solid var(--color-grey-88);
-}
-
 /* ── Add Your Own Quote button ───────────────────────────────────── */
 .add-own-quote-btn {
   width: 100%;
@@ -910,6 +1112,7 @@ body {
   cursor: pointer;
   text-align: center;
 }
+.inv-quotes-link { margin-bottom: var(--sp-18); }
 .inv-quotes-link:hover { text-decoration: none; }
 
 /* ── Calculating animation ───────────────────────────────────────── */
@@ -1233,6 +1436,7 @@ body {
 }
 .modal-delete.visible { display: flex; }
 .modal-delete:hover { text-decoration: none; }
+#fq-delete-all-btn { color: #9B1C1C; }
 
 .modal-cancel {
   background: none;
@@ -1718,6 +1922,11 @@ body {
   gap: 4px var(--sp-18);
   padding: 0 var(--sp-18);
 }
+/* Same column widths on every parcel/freight card row so the columns line up */
+.parcel-card-cols--freight,
+#state-parcel .parcel-card-cols {
+  grid-template-columns: 150px 95px 1fr;
+}
 .parcel-card-cols--last {
   padding-bottom: var(--sp-18);
 }
@@ -1830,8 +2039,99 @@ body {
 .parcel-card-divider {
   border: none;
   border-top: 1px solid var(--color-border);
-  margin: var(--sp-9) 0;
+  margin: var(--sp-9) var(--sp-18);   /* every stroke follows the card's side padding */
 }
+/* Freight cards: divider inset to the card padding */
+.parcel-card-divider--inset { margin: var(--sp-9) var(--sp-18); }
+/* ── Freight Edit Quote modal ──────────────────────────────── */
+.fq-sections { display: flex; flex-direction: column; gap: 18px; }
+.fq-section  { display: flex; flex-direction: column; gap: 18px; }
+.fq-head { display: flex; align-items: center; justify-content: space-between; }
+.fq-head .method-header { font-weight: 300; }
+.fq-head .method-header strong { font-weight: 600; }
+.fq-delete {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #9B1C1C;
+}
+.fq-select-disabled .custom-select-trigger { pointer-events: none; }
+/* Delete only shows while the method is expanded, so it isn't hit by accident when opening the accordion */
+.fq-section.is-collapsed .fq-delete { display: none; }
+/* 36px from the last method to the add link (18px body gap + 18px), 18px from the link to Cancel/Update (9px + 9px footer padding) */
+.fq-add-link { margin-top: 18px; }
+.inv-rate-note { display:flex; align-items:center; gap:6px; margin:var(--sp-9) var(--sp-18) var(--sp-9); padding:10px 12px; background:var(--color-blue-50); font-size:14px; font-weight:300; line-height:150%; color:var(--color-grey-13); }
+.inv-rate-note.hidden { display:none; }
+.inv-rate-note .inv-note-text { flex:1; }
+.inv-rate-note .inv-note-close { display:flex; align-items:center; justify-content:center; width:20px; height:20px; text-decoration:none; font-size:20px; line-height:1; color:var(--color-grey-13); }
+.inv-rate-note button, .fq-inv-hint button { background:none; border:0; padding:0; font:inherit; color:var(--color-grey-13); text-decoration:underline; cursor:pointer; }
+.fq-est { margin:0; padding:10px 12px; background:var(--color-bg-contrast-low); font-size:14px; font-weight:300; line-height:150%; color:var(--color-grey-13); }
+.fq-est strong { font-weight:600; }
+.fq-inv-hint { margin:0 0 18px; padding:10px 12px; background:var(--color-blue-50); font-size:14px; font-weight:300; line-height:150%; color:var(--color-grey-13); }
+#freight-edit-overlay .modal-body { padding-bottom: 9px; }
+
+/* ── Price Per Quantity module (ported from Multi-Qty-v2) ───── */
+.price-per-qty-section {
+  padding: 18px;
+  background-color: #F3F3F3;
+  border-radius: 4px;
+}
+.price-per-qty-checkbox { display: flex; align-items: center; cursor: pointer; }
+.price-per-qty-checkbox label {
+  margin: 0;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+.price-per-qty-content { display: none; }
+.price-per-qty-content.visible { display: block; margin-top: 18px; }
+.price-per-qty-content .modal-price-input { margin-bottom: 5px; background: #fff; }
+
+/* ── Collapsible shipping methods ──────────────────────────── */
+.method-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: inherit;
+}
+.method-header-chevron {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.method-header-chevron.collapsed { transform: rotate(-90deg); }
+.method-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+.method-content.collapsed {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin: 0;
+  gap: 0;
+  margin-bottom: -18px;
+}
+#parcel-method-group-2 .method-content.collapsed { margin-bottom: 0; }
+
 /* Remove method link */
 .parcel-remove-method-link {
   font-family: var(--font-2);
@@ -2165,7 +2465,7 @@ body {
       <!-- Step 2 -->
       <div class="step2-header">
         <div class="step-label">Step 2</div>
-        <div class="step-question" id="step2-question">Enter the dimensions of your packed item(s).</div>
+        <div class="step-question" id="step2-question">Enter the dimensions of your packed item.</div>
       </div>
 
       <!-- Packages container -->
@@ -2208,6 +2508,13 @@ body {
                   <input type="number" id="weight-1" placeholder="0" min="0" oninput="checkDimensions(true)">
                   <span class="unit-label">lbs</span>
                 </div>
+                <div class="weight-helper">
+                  All dimensions must be for a
+                  <span class="step-tooltip">
+                    <span class="tooltip-text">single quantity </span><span class="weight-helper-last"><span class="tooltip-text">purchase</span><img class="help-icon weight-helper-icon" src="info-outline-14.svg" alt=""></span>
+                    <div class="tooltip-content">Enter the package dimensions as if the buyer were purchasing a quantity of 1.</div>
+                  </span>
+                </div>
               </div>
             </div>
             <!-- Saved Package -->
@@ -2245,6 +2552,30 @@ body {
         Add Another Package
       </button>
 
+
+      <!-- Max units: Checkbox -->
+      <div id="max-units" class="max-units-v1-wrapper hidden">
+        <div class="max-units-section">
+          <div class="max-units-checkbox">
+            <input type="checkbox" id="global-units-per-pkg-checkbox" disabled onchange="toggleGlobalUnitsPerPkg()" style="display: none;">
+            <label for="global-units-per-pkg-checkbox" class="disabled" style="display: flex; align-items: center; gap: 9px; margin: 0;">
+              <img class="checkbox-img-off" id="maxunits-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
+              <img class="checkbox-img-on" id="maxunits-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
+              <span>Specify max items per package <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to Parcel Calculated Quotes)</span></span>
+            </label>
+          </div>
+          <div class="max-units-content" id="max-units-content">
+            <div class="max-units-input-wrapper">
+              <input type="number" id="global-units-per-pkg-input" placeholder="0" min="1" value="1" oninput="handleUnitsInput(this)" style="width: 100%; padding: 12px; border: 1px solid var(--color-border); border-radius: var(--r-sm); font-family: var(--font-2); font-size: 14px;">
+              <svg id="global-units-checkmark" class="max-units-checkmark hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #00a651;">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+              </svg>
+            </div>
+            <p class="max-units-helper">Specify how many items fit in one package. We will calculate amount of packages based on quantity of items ordered.</p>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /col-left -->
 
     <!-- RIGHT: Quotes panel -->
@@ -2265,83 +2596,45 @@ body {
       </div>
 
       <!-- ── STATE: Calculating ── -->
+      <!-- Single loading module; the three regions appear once quotes resolve -->
       <div id="state-calculating" class="hidden">
         <div class="quotes-panel">
-          <div class="quotes-panel-header">
-            <div class="quotes-title active">1stDibs Smart Quotes</div>
+          <div class="quotes-panel-header" style="border-bottom:none">
+            <div class="quotes-title active">Shipping Self Service</div>
             <div class="quotes-subtitle">Quotes are generated automatically once package details are entered.</div>
           </div>
-          <!-- US -->
-          <div class="region-row">
-            <div class="region-name">
+        </div>
+        <div class="parcel-region-card">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
               <img src="globe.svg" alt="" width="18" height="18">
-              United States
-            </div>
-            <div class="region-cols">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">Front Door Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value dots calculating-dots">•••</div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value dots calculating-dots">•••</div>
-              </div>
+              <span class="dots calculating-dots">•••</span>
             </div>
           </div>
-          <!-- Europe -->
-          <div class="region-row">
-            <div class="region-name">
-              <img src="globe.svg" alt="" width="18" height="18">
-              Europe
+          <div class="parcel-card-cols" style="padding-bottom:var(--sp-18)">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
             </div>
-            <div class="region-cols">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">Front Door Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value dots calculating-dots">•••</div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value dots calculating-dots">•••</div>
-              </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
             </div>
-          </div>
-          <!-- Rest of World -->
-          <div class="region-row" style="border-bottom:none">
-            <div class="region-name">
-              <img src="globe.svg" alt="" width="18" height="18">
-              Rest of the World
-            </div>
-            <div class="region-cols">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">Front Door Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value dots calculating-dots">•••</div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value dots calculating-dots">•••</div>
-              </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+              <div class="region-col-sub">Calculated Quote</div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- ── STATE: Parcel Loading ── -->
+      <!-- Same single loading module as freight; the three regions appear once quotes resolve -->
       <div id="state-parcel-loading" class="hidden">
         <div class="quotes-panel">
           <div class="quotes-panel-header" style="border-bottom:none">
-            <div class="quotes-title active">1stDibs Parcel Self Service</div>
+            <div class="quotes-title active">Shipping Self Service</div>
             <div class="quotes-subtitle">Quotes are generated automatically once package details are entered.</div>
           </div>
         </div>
@@ -2349,53 +2642,7 @@ body {
           <div class="parcel-card-header">
             <div class="region-name" style="margin-bottom:0">
               <img src="globe.svg" alt="" width="18" height="18">
-              United States
-            </div>
-          </div>
-          <div class="parcel-card-cols" style="padding-bottom:var(--sp-18)">
-            <div>
-              <div class="region-col-label">Shipping Method</div>
-              <div class="region-col-value dots calculating-dots">•••</div>
-            </div>
-            <div>
-              <div class="region-col-label">Shipping Time</div>
-              <div class="region-col-value dots calculating-dots">•••</div>
-            </div>
-            <div>
-              <div class="region-col-label">Buyer Will Pay</div>
-              <div class="region-col-value dots calculating-dots">•••</div>
-              <div class="region-col-sub">Calculated Quote</div>
-            </div>
-          </div>
-        </div>
-        <div class="parcel-region-card">
-          <div class="parcel-card-header">
-            <div class="region-name" style="margin-bottom:0">
-              <img src="globe.svg" alt="" width="18" height="18">
-              Europe
-            </div>
-          </div>
-          <div class="parcel-card-cols" style="padding-bottom:var(--sp-18)">
-            <div>
-              <div class="region-col-label">Shipping Method</div>
-              <div class="region-col-value dots calculating-dots">•••</div>
-            </div>
-            <div>
-              <div class="region-col-label">Shipping Time</div>
-              <div class="region-col-value dots calculating-dots">•••</div>
-            </div>
-            <div>
-              <div class="region-col-label">Buyer Will Pay</div>
-              <div class="region-col-value dots calculating-dots">•••</div>
-              <div class="region-col-sub">Calculated Quote</div>
-            </div>
-          </div>
-        </div>
-        <div class="parcel-region-card">
-          <div class="parcel-card-header">
-            <div class="region-name" style="margin-bottom:0">
-              <img src="globe.svg" alt="" width="18" height="18">
-              Rest of the World
+              <span class="dots calculating-dots">•••</span>
             </div>
           </div>
           <div class="parcel-card-cols" style="padding-bottom:var(--sp-18)">
@@ -2417,120 +2664,147 @@ body {
       </div>
 
       <!-- ── STATE: Calculated ── -->
+      <!-- US and Europe always load Front-Door + In-Home; Rest of the World is Front-Door only -->
       <div id="state-calculated" class="hidden">
         <div class="quotes-panel">
-          <div class="quotes-panel-header">
-            <div class="quotes-title active">1stDibs Smart Quotes</div>
+          <div class="quotes-panel-header" style="border-bottom:none">
+            <div class="quotes-title active">Shipping Self Service</div>
             <div class="quotes-subtitle">Quotes are generated automatically once package details are entered.</div>
           </div>
-          <!-- US -->
-          <div class="region-row">
-            <div class="region-name">
+        </div>
+        <div class="parcel-region-card" id="freight-card-us">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
               <img src="globe.svg" alt="" width="18" height="18">
               United States
             </div>
-            <div class="region-cols">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">Front Door Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value" id="us-time"></div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="us-price"><strong>$50.00-$100.00</strong></div>
+            <div class="meatball-menu-wrap">
+              <button class="three-dot-btn" type="button" onclick="toggleMeatball(this)" title="Options">
+                <img src="hamburger menu.svg" width="20" height="20" alt="Options">
+              </button>
+              <div class="meatball-popover">
+                <div class="popover-option" onclick="openFreightEditModal('us')">Edit</div>
               </div>
             </div>
-            <div class="region-cols inhome-cols hidden" id="us-inhome-result">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">In-Home Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value" id="us-inhome-time"></div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="us-inhome-price"></div>
-              </div>
-            </div>
-            <a class="add-inhome-link" href="#" id="us-inhome-link" onclick="toggleInHome('us'); return false;">+ Add In-Home Delivery</a>
           </div>
-          <!-- Europe -->
-          <div class="region-row">
-            <div class="region-name">
+          <div class="parcel-card-cols parcel-card-cols--freight">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value">Front-Door Delivery</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="us-time"></div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="us-price"></div>
+              <div class="region-col-sub" id="us-quote-label">Calculated Quote</div>
+            </div>
+          </div>
+          <hr class="parcel-card-divider parcel-card-divider--inset">
+          <div class="parcel-card-cols parcel-card-cols--freight">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value">In-Home Delivery</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="us-inhome-time"></div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="us-inhome-price"></div>
+              <div class="region-col-sub" id="us-inhome-quote-label">Calculated Quote</div>
+            </div>
+          </div>
+          <div class="inv-rate-note hidden" id="inv-note-freight-us"></div>
+          <div id="freight-extras-us"></div>
+          <button class="add-method-link" id="freight-add-us" type="button" onclick="openFreightEditModal('us', true)">+ Add Shipping Method</button>
+        </div>
+        <div class="parcel-region-card" id="freight-card-eu">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
               <img src="globe.svg" alt="" width="18" height="18">
               Europe
             </div>
-            <div class="region-cols">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">Front Door Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value" id="eu-time"></div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="eu-price"><strong>$50.00-$100.00</strong></div>
+            <div class="meatball-menu-wrap">
+              <button class="three-dot-btn" type="button" onclick="toggleMeatball(this)" title="Options">
+                <img src="hamburger menu.svg" width="20" height="20" alt="Options">
+              </button>
+              <div class="meatball-popover">
+                <div class="popover-option" onclick="openFreightEditModal('eu')">Edit</div>
               </div>
             </div>
-            <div class="region-cols inhome-cols hidden" id="eu-inhome-result">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">In-Home Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value" id="eu-inhome-time"></div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="eu-inhome-price"></div>
-              </div>
-            </div>
-            <a class="add-inhome-link" href="#" id="eu-inhome-link" onclick="toggleInHome('eu'); return false;">+ Add In-Home Delivery</a>
           </div>
-          <!-- Rest of World -->
-          <div class="region-row" style="border-bottom:none">
-            <div class="region-name">
+          <div class="parcel-card-cols parcel-card-cols--freight">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value">Front-Door Delivery</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="eu-time"></div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="eu-price"></div>
+              <div class="region-col-sub" id="eu-quote-label">Calculated Quote</div>
+            </div>
+          </div>
+          <hr class="parcel-card-divider parcel-card-divider--inset">
+          <div class="parcel-card-cols parcel-card-cols--freight">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value">In-Home Delivery</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="eu-inhome-time"></div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="eu-inhome-price"></div>
+              <div class="region-col-sub" id="eu-inhome-quote-label">Calculated Quote</div>
+            </div>
+          </div>
+          <div class="inv-rate-note hidden" id="inv-note-freight-eu"></div>
+          <div id="freight-extras-eu"></div>
+          <button class="add-method-link" id="freight-add-eu" type="button" onclick="openFreightEditModal('eu', true)">+ Add Shipping Method</button>
+        </div>
+        <div class="parcel-region-card" id="freight-card-row">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
               <img src="globe.svg" alt="" width="18" height="18">
               Rest of the World
             </div>
-            <div class="region-cols">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">Front Door Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value" id="row-time"></div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="row-price"><strong>$50.00-$100.00</strong></div>
+            <div class="meatball-menu-wrap">
+              <button class="three-dot-btn" type="button" onclick="toggleMeatball(this)" title="Options">
+                <img src="hamburger menu.svg" width="20" height="20" alt="Options">
+              </button>
+              <div class="meatball-popover">
+                <div class="popover-option" onclick="openFreightEditModal('row')">Edit</div>
               </div>
             </div>
-            <div class="region-cols inhome-cols hidden" id="row-inhome-result">
-              <div>
-                <div class="region-col-label">Shipping Method</div>
-                <div class="region-col-value">In-Home Delivery</div>
-              </div>
-              <div>
-                <div class="region-col-label">Shipping Time</div>
-                <div class="region-col-value" id="row-inhome-time"></div>
-              </div>
-              <div>
-                <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="row-inhome-price"></div>
-              </div>
-            </div>
-            <a class="add-inhome-link" href="#" id="row-inhome-link" onclick="toggleInHome('row'); return false;">+ Add In-Home Delivery</a>
           </div>
+          <div class="parcel-card-cols parcel-card-cols--freight">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value">Front-Door Delivery</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="row-time"></div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="row-price"></div>
+              <div class="region-col-sub" id="row-quote-label">Calculated Quote</div>
+            </div>
+          </div>
+          <div class="inv-rate-note hidden" id="inv-note-freight-row"></div>
+          <div id="freight-extras-row"></div>
+          <button class="add-method-link" id="freight-add-row" type="button" onclick="openFreightEditModal('row', true)">+ Add Shipping Method</button>
         </div>
       </div>
 
@@ -2552,7 +2826,7 @@ body {
       <div id="state-parcel" class="hidden">
         <div class="quotes-panel">
           <div class="quotes-panel-header" style="border-bottom:none">
-            <div class="quotes-title active">1stDibs Parcel Self Service</div>
+            <div class="quotes-title active">Shipping Self Service</div>
             <div class="quotes-subtitle">Quotes are generated automatically once package details are entered.</div>
           </div>
         </div>
@@ -2568,7 +2842,7 @@ body {
                 <img src="hamburger menu.svg" width="20" height="20" alt="Options">
               </button>
               <div class="meatball-popover">
-                <div class="popover-option" onclick="openParcelEditModal('us')">Edit</div>
+                <div class="popover-option" onclick="openParcelQuoteModal('us')">Edit</div>
               </div>
             </div>
           </div>
@@ -2588,6 +2862,7 @@ body {
             </div>
           </div>
           <!-- Inline Express method (added via + Add Shipping Method) -->
+          <div class="inv-rate-note hidden" id="inv-note-parcel-us"></div>
           <hr class="parcel-card-divider hidden" id="parcel-divider-us">
           <div class="parcel-card-cols parcel-card-cols--last hidden" id="parcel-express-loading-us">
             <div>
@@ -2620,7 +2895,8 @@ body {
             </div>
           </div>
           <button class="add-method-link hidden" id="parcel-remove-us" onclick="removeParcelCardMethod('us')">- Remove Shipping Method</button>
-          <button class="add-method-link" id="parcel-add-us" onclick="addParcelCardMethod('us')">+ Add Shipping Method</button>
+          <div id="parcel-extras-us"></div>
+          <button class="add-method-link" id="parcel-add-us" onclick="openParcelQuoteModal('us', true)">+ Add Shipping Method</button>
         </div>
         <!-- Europe -->
         <div class="parcel-region-card" id="parcel-card-eu">
@@ -2634,7 +2910,7 @@ body {
                 <img src="hamburger menu.svg" width="20" height="20" alt="Options">
               </button>
               <div class="meatball-popover">
-                <div class="popover-option" onclick="openParcelEditModal('eu')">Edit</div>
+                <div class="popover-option" onclick="openParcelQuoteModal('eu')">Edit</div>
               </div>
             </div>
           </div>
@@ -2654,6 +2930,7 @@ body {
             </div>
           </div>
           <!-- Inline Express method -->
+          <div class="inv-rate-note hidden" id="inv-note-parcel-eu"></div>
           <hr class="parcel-card-divider hidden" id="parcel-divider-eu">
           <div class="parcel-card-cols parcel-card-cols--last hidden" id="parcel-express-loading-eu">
             <div>
@@ -2686,7 +2963,8 @@ body {
             </div>
           </div>
           <button class="add-method-link hidden" id="parcel-remove-eu" onclick="removeParcelCardMethod('eu')">- Remove Shipping Method</button>
-          <button class="add-method-link" id="parcel-add-eu" onclick="addParcelCardMethod('eu')">+ Add Shipping Method</button>
+          <div id="parcel-extras-eu"></div>
+          <button class="add-method-link" id="parcel-add-eu" onclick="openParcelQuoteModal('eu', true)">+ Add Shipping Method</button>
         </div>
         <!-- Rest of World -->
         <div class="parcel-region-card" id="parcel-card-row">
@@ -2700,7 +2978,7 @@ body {
                 <img src="hamburger menu.svg" width="20" height="20" alt="Options">
               </button>
               <div class="meatball-popover">
-                <div class="popover-option" onclick="openParcelEditModal('row')">Edit</div>
+                <div class="popover-option" onclick="openParcelQuoteModal('row')">Edit</div>
               </div>
             </div>
           </div>
@@ -2720,6 +2998,7 @@ body {
             </div>
           </div>
           <!-- Inline Express method -->
+          <div class="inv-rate-note hidden" id="inv-note-parcel-row"></div>
           <hr class="parcel-card-divider hidden" id="parcel-divider-row">
           <div class="parcel-card-cols parcel-card-cols--last hidden" id="parcel-express-loading-row">
             <div>
@@ -2752,18 +3031,18 @@ body {
             </div>
           </div>
           <button class="add-method-link hidden" id="parcel-remove-row" onclick="removeParcelCardMethod('row')">- Remove Shipping Method</button>
-          <button class="add-method-link" id="parcel-add-row" onclick="addParcelCardMethod('row')">+ Add Shipping Method</button>
+          <div id="parcel-extras-row"></div>
+          <button class="add-method-link" id="parcel-add-row" onclick="openParcelQuoteModal('row', true)">+ Add Shipping Method</button>
         </div>
       </div>
 
       <!-- ── Custom quotes (persists across states) ── -->
       <div id="custom-quotes-section">
         <div id="custom-quotes-list"></div>
-        <button class="add-own-quote-btn" onclick="openQuoteModal()">
+        <button class="add-own-quote-btn" id="add-own-quote-btn" onclick="openQuoteModal()">
           <img src="PlusCircle.svg" alt="" width="20" height="20">
           Add Your Own Quote
         </button>
-        <button class="inv-quotes-link hidden" id="inv-quotes-link" onclick="loadInventoryQuotes()"></button>
       </div>
 
     </div><!-- /col-right -->
@@ -2790,10 +3069,7 @@ body {
             <img class="custom-select-chevron" src="Down icon.svg" alt="">
           </div>
           <div class="custom-select-dropdown">
-            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">United States</div>
             <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Canada</div>
-            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Europe</div>
-            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Rest of the World</div>
             <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Australia</div>
             <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Japan</div>
             <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">United Kingdom</div>
@@ -2812,16 +3088,6 @@ body {
           </div>
         </div>
       </div>
-      <!-- Buyers Will Pay -->
-      <div class="modal-field">
-        <label class="modal-label">Buyers Will Pay</label>
-        <div class="modal-price-input">
-          <span class="modal-price-prefix">$</span>
-          <input type="number" id="modal-price" placeholder="" min="0" oninput="onQuoteInput()">
-          <span class="modal-price-suffix">USD</span>
-        </div>
-        <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
-      </div>
       <!-- Shipping Time -->
       <div class="modal-field">
         <label class="modal-label">Shipping Time</label>
@@ -2836,6 +3102,16 @@ body {
             <span class="modal-time-unit">days</span>
           </div>
         </div>
+      </div>
+      <!-- Buyer Will Pay -->
+      <div class="modal-field">
+        <label class="modal-label">Buyer Will Pay</label>
+        <div class="modal-price-input">
+          <span class="modal-price-prefix">$</span>
+          <input type="number" id="modal-price" placeholder="" min="0" oninput="onQuoteInput()">
+          <span class="modal-price-suffix">USD</span>
+        </div>
+        <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
       </div>
     </div>
     <div class="modal-footer">
@@ -2859,18 +3135,81 @@ body {
   let pkgCount = 1;
   let currentState = 'locked';
   let currentPrices = { usLo: 0, usHi: 0, euLo: 0, euHi: 0, rowLo: 0, rowHi: 0 };
-  let inhomeTimers = { us: null, eu: null, row: null };
   let firstFilledPackageType = null; // 'parcel' | 'freight' — type of the first package to become fully filled
 
   function selectAnswer(answer) {
     currentAnswer = answer;
     document.getElementById('radio-yes').classList.toggle('selected', answer === 'yes');
     document.getElementById('radio-no').classList.toggle('selected', answer === 'no');
-    document.getElementById('step2-question').textContent = 'Enter the dimensions of your packed item(s).';
+    document.getElementById('step2-question').textContent = 'Enter the dimensions of your packed item.';
     checkDimensions(true);
   }
 
+  // ── Max items per package (parcel packages only) ─────────────────
+  let globalUnitsPerPackage = null;
+  let unitsInputTimeout;
+
+  function handleUnitsInput(inputEl) {
+    const value = inputEl.value.trim();
+    const checkmark = document.getElementById('global-units-checkmark');
+    if (checkmark) checkmark.classList.remove('visible');
+    clearTimeout(unitsInputTimeout);
+    if (!value || isNaN(parseInt(value)) || parseInt(value) < 1) return;
+    // Commit after a short pause in typing
+    unitsInputTimeout = setTimeout(() => {
+      globalUnitsPerPackage = parseInt(value);
+      if (checkmark) checkmark.classList.add('visible');
+    }, 500);
+  }
+
+  function toggleGlobalUnitsPerPkg() {
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const content = document.getElementById('max-units-content');
+    const imgOff = document.getElementById('maxunits-checkbox-off');
+    const imgOn = document.getElementById('maxunits-checkbox-on');
+    const input = document.getElementById('global-units-per-pkg-input');
+    if (!checkbox) return;
+    if (checkbox.checked) {
+      content.classList.add('visible');
+      imgOff.style.display = 'none';
+      imgOn.style.display = 'block';
+      input.value = globalUnitsPerPackage || 1;
+    } else {
+      content.classList.remove('visible');
+      imgOff.style.display = 'block';
+      imgOn.style.display = 'none';
+      globalUnitsPerPackage = null;
+    }
+  }
+
+  function setMaxUnitsEnabled(enabled) {
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const label = document.querySelector('#max-units .max-units-checkbox label');
+    if (!checkbox) return;
+    checkbox.disabled = !enabled;
+    if (label) label.classList.toggle('disabled', !enabled);
+    if (!enabled) {
+      if (checkbox.checked) { checkbox.checked = false; toggleGlobalUnitsPerPkg(); }
+      globalUnitsPerPackage = null;
+    }
+  }
+
+  // Shown only once Step 1 is answered and the first package has parcel-sized dimensions
+  function updateMaxUnitsVisibility() {
+    const maxUnits = document.getElementById('max-units');
+    if (!maxUnits) return;
+    const firstPkg = document.querySelector('#packages-container .pkg-wrap');
+    let parcelEligible = false;
+    if (currentAnswer && firstPkg) {
+      const [l, w, h, wt] = Array.from(firstPkg.querySelectorAll('input[type="number"]')).slice(0, 4).map(i => parseFloat(i.value) || 0);
+      parcelEligible = l > 0 && w > 0 && h > 0 && wt > 0 && isParcel(l, w, h, wt);
+    }
+    maxUnits.classList.toggle('hidden', !parcelEligible);
+    setMaxUnitsEnabled(parcelEligible);
+  }
+
   function checkDimensions(fromTyping = false) {
+    updateMaxUnitsVisibility();
     clearTimeout(calcTimer);
 
     const pkgWraps = Array.from(document.querySelectorAll('#packages-container .pkg-wrap'));
@@ -2899,7 +3238,7 @@ body {
           // Still freight: show loading state, then refresh smart prices, preserve in-home rows
           showState('calculating');
           calcTimer = setTimeout(() => {
-            updatePrices(l, w, h, wt, true);
+            updatePrices(l, w, h, wt);
             showState('calculated');
           }, 1800);
         }
@@ -3018,7 +3357,89 @@ body {
     }
   }
 
-  function updatePrices(l, w, h, wt, keepInHome = false) {
+  // Per-region freight quotes. 'fd' = Front-Door Delivery and 'ih' = In-Home Delivery are mandatory
+  // (US + Europe get both, Rest of the World gets Front-Door only). Sellers can switch them to
+  // Flat Rate / Free but can't remove them. 'extras' are optional flat-rate methods the seller adds.
+  let freightData = {
+    us:  { name: 'United States',     fd: { quoteType: 'Calculated Quote' }, ih: { quoteType: 'Calculated Quote' }, extras: [] },
+    eu:  { name: 'Europe',            fd: { quoteType: 'Calculated Quote' }, ih: { quoteType: 'Calculated Quote' }, extras: [] },
+    row: { name: 'Rest of the World', fd: { quoteType: 'Calculated Quote' }, extras: [] },
+  };
+  let freightCalc = {};          // calculated price strings per region/row, set by updatePrices
+  const freightIds = {
+    fd: r => ({ price: `${r}-price`,        label: `${r}-quote-label` }),
+    ih: r => ({ price: `${r}-inhome-price`, label: `${r}-inhome-quote-label` }),
+  };
+
+  // Flat rate methods show the seller's own shipping time; calculated ones keep the generated time
+  function applyRowTime(id, row) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const flat = row && (row.quoteType === 'Flat Rate' || row.quoteType === 'Free Shipping') && row.timeLo !== undefined && row.timeLo !== '';
+    if (flat) {
+      if (!el.dataset.flatOn) { el.dataset.calc = el.textContent; el.dataset.flatOn = '1'; }
+      el.textContent = `${row.timeLo}-${row.timeHi} days`;
+    } else if (el.dataset.flatOn) {
+      el.textContent = el.dataset.calc;
+      delete el.dataset.flatOn;
+    }
+  }
+  function domCalcTime(id) {
+    const el = document.getElementById(id);
+    return el ? (el.dataset.flatOn ? el.dataset.calc : el.textContent) : '';
+  }
+
+  // A $0 flat rate reads as free shipping
+  const quoteLabelOf = (qt, price) => (qt === 'Flat Rate' && parseFloat(price) === 0 ? 'Free Shipping' : qt);
+
+  // $400, or "$10 (+2)" when price per quantity is enabled
+  function formatPriceDisplay(price, ppq = null) {
+    let display = `<strong>$${Math.round(parseFloat(price) || 0)}</strong>`;
+    if (ppq && parseFloat(ppq) > 0) display += `&nbsp;(+${Math.round(parseFloat(ppq))})`;
+    return display;
+  }
+
+  // Rows for seller-added (flat rate) methods on a region card
+  function extrasRowsHTML(extras) {
+    return extras.map(e => `
+          <hr class="parcel-card-divider parcel-card-divider--inset">
+          <div class="parcel-card-cols parcel-card-cols--freight">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value" title="${e.method}">${e.method}</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value">${e.timeLo}-${e.timeHi} days</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value">${formatPriceDisplay(e.price, e.ppqOn ? e.ppq : null)}</div>
+              <div class="region-col-sub">${parseFloat(e.price) === 0 ? 'Free Shipping' : 'Flat Rate'}</div>
+            </div>
+          </div>`).join('');
+  }
+
+  function renderFreightCards() {
+    Object.keys(freightData).forEach(r => {
+      ['fd', 'ih'].forEach(row => {
+        const d = freightData[r][row];
+        if (!d) return;
+        const ids = freightIds[row](r);
+        let priceHTML = `<strong>${freightCalc[r] ? freightCalc[r][row] : ''}</strong>`;
+        if (d.quoteType === 'Flat Rate')          priceHTML = formatPriceDisplay(d.customPrice, d.ppqOn ? d.ppq : null);
+        else if (d.quoteType === 'Free Shipping') priceHTML = '<strong>$0</strong>';
+        document.getElementById(ids.price).innerHTML = priceHTML;
+        document.getElementById(ids.label).textContent = quoteLabelOf(d.quoteType, d.customPrice);
+        applyRowTime(row === 'fd' ? `${r}-time` : `${r}-inhome-time`, d);
+      });
+      // Seller-added methods
+      document.getElementById(`freight-extras-${r}`).innerHTML = extrasRowsHTML(freightData[r].extras);
+    });
+    renderInvRateNotes();
+  }
+
+  function updatePrices(l, w, h, wt) {
     const dimWt   = (l * w * h) / 139;
     const billable = Math.max(wt, dimWt);
     const base = Math.max(50, billable * 0.38);
@@ -3028,63 +3449,444 @@ body {
     const euHi  = Math.round(hi * 1.35 / 5) * 5;
     const rowLo = Math.round(lo * 1.6 / 5) * 5;
     const rowHi = Math.round(hi * 1.6 / 5) * 5;
-    const fmt = n => '$' + n.toFixed(2);
-    document.getElementById('us-price').innerHTML  = `<strong>${fmt(lo)}-${fmt(hi)}</strong>`;
-    document.getElementById('eu-price').innerHTML  = `<strong>${fmt(euLo)}-${fmt(euHi)}</strong>`;
-    document.getElementById('row-price').innerHTML = `<strong>${fmt(rowLo)}-${fmt(rowHi)}</strong>`;
-    document.getElementById('us-time').textContent  = '10-12 days';
-    document.getElementById('eu-time').textContent  = '10-12 days';
-    document.getElementById('row-time').textContent = '10-12 days';
+    const range = (a, b) => `$${a}-${b}`;
+    const inHome = n => Math.round(n * 2 / 5) * 5;
+    freightCalc = {
+      us:  { fd: range(lo, hi),       ih: range(inHome(lo), inHome(hi)) },
+      eu:  { fd: range(euLo, euHi),   ih: range(inHome(euLo), inHome(euHi)) },
+      row: { fd: range(rowLo, rowHi) },
+    };
+    ['us', 'eu', 'row'].forEach(r => {
+      document.getElementById(`${r}-time`).textContent = '10-12 days';
+    });
+    // In-Home Delivery loads automatically for US and Europe
+    document.getElementById('us-inhome-time').textContent = '2-4 days';
+    document.getElementById('eu-inhome-time').textContent = '2-4 days';
     currentPrices = { usLo: lo, usHi: hi, euLo, euHi, rowLo, rowHi };
-    if (!keepInHome) resetInHome();
+    renderFreightCards();
   }
 
-  function resetInHome() {
-    ['us', 'eu', 'row'].forEach(region => {
-      clearTimeout(inhomeTimers[region]);
-      document.getElementById(`${region}-inhome-result`).classList.add('hidden');
-      document.getElementById(`${region}-inhome-price`).innerHTML = '';
-      document.getElementById(`${region}-inhome-time`).textContent = '';
-      const resetLink = document.getElementById(`${region}-inhome-link`);
-      resetLink.textContent = '+ Add In-Home Delivery';
-      resetLink.classList.remove('hidden');
+  // ── Edit Quote modal (freight + parcel) ───────────────────────────
+  // Accordion of shipping methods. The mandatory methods (freight: Front-Door + In-Home, parcel:
+  // Standard + Express for US/Europe, Standard only for Rest of the World) can be switched to Flat
+  // Rate / Free but not removed. Seller-added methods are Flat Rate and can be deleted.
+  const FQ_QUOTE_LABEL = { 'Calculated Quote': 'Calculate For Me', 'Flat Rate': 'Choose Your Own', 'Free Shipping': 'Offer Free Shipping' };
+  const FQ_HEAD_WORD   = { 'Calculated Quote': 'Calculated', 'Flat Rate': 'Flat Rate', 'Free Shipping': 'Free' };
+  const FQ_FREIGHT_EXTRAS = ['Express Front-Door Delivery', 'Express In-Home Delivery', 'Courier'];
+  // Parcel packages can still be upgraded to freight-style delivery
+  const FQ_PARCEL_EXTRAS  = ['Standard Front-Door Delivery', 'Express Front-Door Delivery', 'Standard In-Home Delivery', 'Express In-Home Delivery'];
+  let fqDraft = null;
+  let fqOpen = null;
+  let fqChanged = false;
+  let fqNextId = 1;
+
+  const fqKeyOf = e => `x${e.id}`;
+  const fqIsExtra = key => key.startsWith('x');
+  function fqTarget(key) {
+    return fqIsExtra(key) ? fqDraft.extras.find(e => fqKeyOf(e) === key) : fqDraft.rows[key];
+  }
+  function fqKeys() {
+    return fqDraft.order.concat(fqDraft.extras.map(fqKeyOf));
+  }
+  function fqNewExtra() {
+    return { id: fqNextId++, method: '', timeLo: '', timeHi: '', price: '', ppqOn: false, ppq: '' };
+  }
+  const fqCopyExtras = list => list.map(e => ({ ...e }));
+  const fqDisplayMethod = m => (m || '').replace(/\s*\([^)]*\)$/, '').trim();
+
+  function openFreightEditModal(region, addNew = false) {
+    const d = freightData[region];
+    const calc = freightCalc[region] || {};
+    const draft = { kind: 'freight', region, name: d.name, order: ['fd'], rows: { fd: { ...d.fd } },
+      meta: { fd: { name: 'Front-Door Delivery', methodText: 'Front-Door Delivery', calc: calc.fd || '', time: domCalcTime(`${region}-time`) } },
+      extras: fqCopyExtras(d.extras), extraOptions: FQ_FREIGHT_EXTRAS };
+    if (d.ih) {
+      draft.order.push('ih');
+      draft.rows.ih = { ...d.ih };
+      draft.meta.ih = { name: 'In-Home Delivery', methodText: 'In-Home Delivery', calc: calc.ih || '', time: domCalcTime(`${region}-inhome-time`) };
+    }
+    fqOpenModal(draft, addNew);
+  }
+
+  function openParcelQuoteModal(region, addNew = false) {
+    const d = parcelData[region];
+    const draft = { kind: 'parcel', region, name: d.name, order: ['std'],
+      rows: { std: { quoteType: d.quoteType, customPrice: d.customPrice, ppqOn: d.ppqOn, ppq: d.ppq, timeLo: d.timeLo ?? '', timeHi: d.timeHi ?? '' } },
+      meta: { std: { name: fqDisplayMethod(d.method), methodText: d.method, calc: d.price, time: domCalcTime(`parcel-${region}-time`) } },
+      extras: fqCopyExtras(d.extras || []),
+      extraOptions: region === 'row' ? FQ_PARCEL_EXTRAS.concat('DHL Express Parcel') : FQ_PARCEL_EXTRAS };
+    if (region !== 'row') {
+      draft.order.push('exp');
+      draft.rows.exp = { quoteType: d.expressQuoteType, customPrice: d.expressCustomPrice, ppqOn: d.expressPpqOn, ppq: d.expressPpq, timeLo: d.expressTimeLo ?? '', timeHi: d.expressTimeHi ?? '' };
+      draft.meta.exp = { name: fqDisplayMethod(d.expressMethod), methodText: d.expressMethod, calc: d.expressPrice || d.price, time: domCalcTime(`parcel-${region}-express-time`) };
+    }
+    fqOpenModal(draft, addNew);
+  }
+
+  function fqOpenModal(draft, addNew) {
+    document.querySelectorAll('.meatball-menu-wrap.open').forEach(w => w.classList.remove('open'));
+    fqDraft = draft;
+    fqChanged = false;
+    fqOpen = draft.order[0] ?? (draft.extras[0] ? fqKeyOf(draft.extras[0]) : null);
+    if (addNew) {
+      const e = fqNewExtra();
+      fqDraft.extras.push(e);
+      fqOpen = fqKeyOf(e);
+    }
+    document.getElementById('fq-title').textContent = `Edit Quote for ${draft.name}`;
+    // Location modules can be deleted whole, however many methods they hold
+    document.getElementById('fq-delete-all-btn').classList.toggle('visible', draft.kind === 'custom');
+    fqRender();
+    document.getElementById('freight-edit-overlay').classList.remove('hidden');
+  }
+
+  function closeFreightEditModal() {
+    document.getElementById('freight-edit-overlay').classList.add('hidden');
+    fqDraft = null;
+  }
+
+  function fqSelectHTML(id, valueText, optionsHTML, disabled) {
+    return `<div class="custom-select ${disabled ? 'fq-select-disabled cs-disabled' : ''}" id="${id}">
+      <div class="custom-select-trigger" onclick="toggleCustomSelect('${id}')">
+        <span class="custom-select-value">${valueText}</span>
+        <img class="custom-select-chevron" src="Down icon.svg" alt="">
+      </div>
+      <div class="custom-select-dropdown">${optionsHTML}</div>
+    </div>`;
+  }
+
+  function fqPPQHTML(key, t) {
+    return `<div class="modal-field">
+      <div class="price-per-qty-section">
+        <div class="price-per-qty-checkbox">
+          <label onclick="fqTogglePPQ('${key}')" style="display:flex;align-items:center;gap:9px;margin:0;">
+            <img src="${t.ppqOn ? 'Checkbox-Active-On.svg' : 'Checkbox-Active-Off.svg'}" width="20" height="20" alt="" style="flex-shrink:0;">
+            <span>Enable Price Per Quantity <span style="font-weight:300;color:var(--color-grey-66);">(applies only to Flat Rate quotes)</span></span>
+          </label>
+        </div>
+        <div class="price-per-qty-content ${t.ppqOn ? 'visible' : ''}">
+          <div class="modal-price-input">
+            <span class="modal-price-prefix">$</span>
+            <input type="number" placeholder="0" min="0" value="${t.ppq ?? ''}" oninput="fqInput('${key}','ppq',this.value)">
+            <span class="modal-price-suffix">USD</span>
+          </div>
+          <p class="modal-helper">Specify cost per each additional item. System will calculate cost based on quantity ordered, adding flat rate and cost per additional items.</p>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function fqTimeHTML(key, t) {
+    return `<div class="modal-field">
+          <label class="modal-label">Shipping Time</label>
+          <div class="modal-time-row">
+            <div class="modal-time-input"><input type="number" placeholder="0" min="0" value="${t.timeLo ?? ''}" oninput="fqInput('${key}','timeLo',this.value)"><span class="modal-time-unit">days</span></div>
+            <span class="modal-time-to">to</span>
+            <div class="modal-time-input"><input type="number" placeholder="0" min="0" value="${t.timeHi ?? ''}" oninput="fqInput('${key}','timeHi',this.value)"><span class="modal-time-unit">days</span></div>
+          </div>
+        </div>`;
+  }
+
+  function fqFlatPriceHTML(key, t, estHTML = '') {
+    return `<div class="modal-field">
+      <label class="modal-label">Buyer Will Pay</label>
+      <div class="modal-price-input">
+        <span class="modal-price-prefix">$</span>
+        <input type="number" placeholder="" min="0" value="${(fqIsExtra(key) ? t.price : t.customPrice) ?? ''}" oninput="fqInput('${key}','${fqIsExtra(key) ? 'price' : 'customPrice'}',this.value)">
+        <span class="modal-price-suffix">USD</span>
+      </div>
+      <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
+    </div>` + estHTML + fqPPQHTML(key, t);
+  }
+
+  // ── Inventory-location flat rates ─────────────────────────────────
+  // A seller can only have one quote type per method. Flat rates saved on the inventory location apply to
+  // their region whatever the package type: when one matches a mandatory method it replaces the calculated
+  // quote (and can be switched back), otherwise it joins the region as an added flat-rate method.
+  const invQuotesFor = regionKey => {
+    const loc = INV_LOCATIONS.find(l => l.selected) || INV_LOCATIONS[0];
+    return (INVENTORY_LOCATION_QUOTES[loc.name] || []).filter(q => INV_REGION_KEYS[q.location] === regionKey);
+  };
+  // Which mandatory row (if any) an inventory quote's method stands for on a freight / parcel card
+  function invRowKey(kind, method, regionKey) {
+    if (kind === 'freight') {
+      if (method === 'Front-Door Delivery') return 'fd';
+      if (method === 'In-Home Delivery' && freightData[regionKey].ih) return 'ih';
+    } else {
+      if (method === 'DHL Standard Parcel') return 'std';
+      if (method === 'DHL Express Parcel' && regionKey !== 'row') return 'exp';
+    }
+    return null;
+  }
+  const invQuoteForRow = (regionKey, kind, rowKey) => invQuotesFor(regionKey).find(q => invRowKey(kind, q.method, regionKey) === rowKey) || null;
+  const invRowKeys = (kind, regionKey) => kind === 'freight'
+    ? (freightData[regionKey].ih ? ['fd', 'ih'] : ['fd'])
+    : (regionKey === 'row' ? ['std'] : ['std', 'exp']);
+
+  // Whether a mandatory row already carries the inventory rate ($0 means free shipping)
+  const invUsing = (row, q) => !!row && (q.price === 0 ? row.quoteType === 'Free Shipping' : (row.quoteType === 'Flat Rate' && parseFloat(row.customPrice) === q.price));
+  const invTypeWord = q => (q.price === 0 ? 'Free Shipping' : 'Flat Rate');
+
+  function fqInvHintHTML(key, t) {
+    const q = (fqDraft.kind === 'freight' || fqDraft.kind === 'parcel') ? invQuoteForRow(fqDraft.region, fqDraft.kind, key) : null;
+    if (!q) return '';
+    // Once the seller has used the inventory rate there's nothing left to offer; it returns if they switch back
+    if (invUsing(t, q)) return '';
+    return `<p class="fq-inv-hint">You set a ${invTypeWord(q)} ${fqDraft.meta[key].name} quote for this inventory location in your inventory settings: <strong>$${q.price}</strong>. <button type="button" onclick="fqUseInvRate('${key}')">Use this rate</button></p>`;
+  }
+  function fqUseInvRate(key) {
+    const t = fqTarget(key), q = invQuoteForRow(fqDraft.region, fqDraft.kind, key);
+    if (!q) return;
+    t.quoteType = q.price === 0 ? 'Free Shipping' : 'Flat Rate';
+    t.customPrice = q.price === 0 ? '' : q.price;
+    t.timeLo = q.timeLo; t.timeHi = q.timeHi;
+    fqChanged = true;
+    fqRender();
+  }
+  // Card-level note so sellers know a flat rate exists without opening the modal
+  function renderInvRateNotes() {
+    ['freight', 'parcel'].forEach(kind => {
+      ['us', 'eu', 'row'].forEach(r => {
+        const el = document.getElementById(`inv-note-${kind}-${r}`);
+        if (!el) return;
+        const d = kind === 'freight' ? freightData[r] : parcelData[r];
+        const rowOf = k => kind === 'freight' ? d[k]
+          : (k === 'std' ? d : { quoteType: d.expressQuoteType, customPrice: d.expressCustomPrice });
+        const nameOf = k => kind === 'freight' ? (k === 'ih' ? 'In-Home Delivery' : 'Front-Door Delivery')
+          : fqDisplayMethod(k === 'std' ? d.method : d.expressMethod);
+        // First mandatory method whose inventory rate hasn't been taken up
+        const key = invRowKeys(kind, r).find(k => {
+          const q = invQuoteForRow(r, kind, k), row = rowOf(k);
+          return q && !invUsing(row, q);
+        });
+        if (!key || invNoteDismissed.has(`${kind}-${r}`)) { el.classList.add('hidden'); el.innerHTML = ''; return; }
+        el.innerHTML = `<span class="inv-note-text">Flat Rate, ${nameOf(key)} quote available. <button type="button" onclick="openInvRate('${kind}','${r}','${key}')">Review</button></span>
+          <button type="button" class="inv-note-close" aria-label="Close" onclick="dismissInvNote('${kind}','${r}')">&times;</button>`;
+        el.classList.remove('hidden');
+      });
+    });
+  }
+  // Closing a banner hides it for this session only (the modal hint always stays)
+  const invNoteDismissed = new Set();
+  function dismissInvNote(kind, r) {
+    invNoteDismissed.add(`${kind}-${r}`);
+    renderInvRateNotes();
+  }
+  function openInvRate(kind, r, key) {
+    if (kind === 'freight') openFreightEditModal(r); else openParcelQuoteModal(r);
+    fqOpen = key;
+    fqRender();
+  }
+
+    function fqSectionHTML(key) {
+    const t = fqTarget(key);
+    const isExtra = fqIsExtra(key);
+    let headLabel, body;
+    if (!isExtra) {
+      const qt = t.quoteType;
+      const m = fqDraft.meta[key];
+      headLabel = `${FQ_HEAD_WORD[qt]} ${m.name}`;
+      const quoteOpts = Object.keys(FQ_QUOTE_LABEL).map(q => {
+        const sub = { 'Calculated Quote': 'We calculate the shipping price for you (calculated quote)', 'Flat Rate': 'Set your own shipping price (flat rate)', 'Free Shipping': 'You absorb the shipping cost' }[q];
+        const price = q === 'Calculated Quote' ? `<span class="pq-option-price">${m.calc}</span>` : '';
+        return `<div class="custom-select-option ${q === qt ? 'active' : ''}" onclick="fqPickQuote('${key}','${q}')">
+          <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title ${q === 'Free Shipping' ? 'free' : ''}">${FQ_QUOTE_LABEL[q]}</span>${price}</div><div class="pq-option-sub">${sub}</div></div></div>`;
+      }).join('');
+      // What the calculated quote would have been, so the seller can price against it
+      const est = `<div class="fq-est">Estimated Shipping Price: <strong>${m.calc}</strong></div>`;
+      let price;
+      if (qt === 'Calculated Quote') {
+        price = `<div class="modal-field"><label class="modal-label">Buyer Will Pay</label><div><div class="modal-price-display">${m.calc}</div><p class="modal-helper" style="margin-top:2px">Final shipping cost is based on buyer's location.</p></div></div>`;
+      } else if (qt === 'Free Shipping') {
+        price = fqTimeHTML(key, t) + `<div class="modal-field"><label class="modal-label">Buyer Will Pay</label><div><div class="modal-price-display">$0</div><p class="modal-helper" style="margin-top:2px">You absorb the shipping cost.</p></div></div>` + est;
+      } else {
+        price = fqTimeHTML(key, t) + fqFlatPriceHTML(key, t, est);
+      }
+      price += fqInvHintHTML(key, t);
+      body = `<div class="modal-field"><label class="modal-label">Shipping Quote</label>${fqSelectHTML(`fq-${key}-quote`, FQ_QUOTE_LABEL[qt], quoteOpts, false)}</div>
+        <div class="modal-field"><label class="modal-label">Shipping Method</label>${fqSelectHTML(`fq-${key}-method`, qt === 'Calculated Quote' && m.time ? `${m.methodText} (${m.time})` : m.methodText, '', true)}</div>
+        ${price}`;
+    } else {
+      headLabel = t.method ? `Flat Rate ${t.method}` : '';
+      const taken = fqDraft.extras.filter(e => e !== t).map(e => e.method);
+      const opts = fqDraft.extraOptions.filter(m => !taken.includes(m)).map(m =>
+        `<div class="custom-select-option ${m === t.method ? 'active' : ''}" onclick="fqPickMethod('${key}','${m}')">${m}</div>`).join('');
+      body = `<div class="modal-field"><label class="modal-label">Shipping Method</label>${fqSelectHTML(`fq-${key}-method`, t.method, opts, false)}</div>
+        ${fqTimeHTML(key, t)}
+        ${fqFlatPriceHTML(key, t)}`;
+    }
+    const open = fqOpen === key;
+    const chevron = `<svg class="method-header-chevron ${open ? '' : 'collapsed'}" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.1998 10.3429L11.9998 16.2397L4.7998 10.3429L6.00801 8.85693L11.9998 13.7589L17.9916 8.85693L19.1998 10.3429Z" fill="#222222"/></svg>`;
+    return `<div class="fq-section ${open ? '' : 'is-collapsed'}" data-key="${key}">
+      <div class="fq-head">
+        <button class="method-header" type="button" onclick="fqToggle('${key}')">${chevron}<span>Shipping Method${headLabel ? ':' : ''} <strong>${headLabel || ''}</strong></span></button>
+        ${isExtra && (fqDraft.kind !== 'custom' || fqDraft.extras.length > 1) ? `<button class="fq-delete" type="button" onclick="fqDeleteExtra('${key}')">Delete</button>` : ''}
+      </div>
+      <div class="method-content ${open ? '' : 'collapsed'}">${body}</div>
+    </div>`;
+  }
+
+  function fqRender() {
+    document.getElementById('fq-sections').innerHTML =
+      fqKeys().map(fqSectionHTML).join('<hr class="parcel-method-divider">');
+    fqUpdateSave();
+  }
+
+  // Only one method open at a time
+  function fqToggle(key) {
+    fqOpen = fqOpen === key ? null : key;
+    document.querySelectorAll('#fq-sections .fq-section').forEach(sec => {
+      const open = sec.dataset.key === fqOpen;
+      sec.querySelector('.method-content').classList.toggle('collapsed', !open);
+      sec.querySelector('.method-header-chevron').classList.toggle('collapsed', !open);
+      sec.classList.toggle('is-collapsed', !open);
     });
   }
 
-  function toggleInHome(region) {
-    const link      = document.getElementById(`${region}-inhome-link`);
-    const resultRow = document.getElementById(`${region}-inhome-result`);
-    const priceEl   = document.getElementById(`${region}-inhome-price`);
+  function fqPickQuote(key, qt) {
+    const t = fqTarget(key);
+    t.quoteType = qt;
+    if (qt !== 'Flat Rate') { t.ppqOn = false; t.ppq = ''; }
+    fqChanged = true;
+    fqRender();
+  }
 
-    if (link.textContent.startsWith('-')) {
-      clearTimeout(inhomeTimers[region]);
-      resultRow.classList.add('hidden');
-      priceEl.innerHTML = '';
-      document.getElementById(`${region}-inhome-time`).textContent = '';
-      link.textContent = '+ Add In-Home Delivery';
-      link.classList.remove('hidden');
-      return;
+  function fqPickMethod(key, method) {
+    fqTarget(key).method = method;   // header updates in real time
+    fqChanged = true;
+    fqRender();
+  }
+
+  function fqTogglePPQ(key) {
+    const t = fqTarget(key);
+    t.ppqOn = !t.ppqOn;
+    if (!t.ppqOn) t.ppq = '';
+    fqChanged = true;
+    fqRender();
+  }
+
+  function fqInput(key, field, value) {
+    fqTarget(key)[field] = value;
+    fqChanged = true;
+    fqUpdateSave();
+  }
+
+  function fqDeleteExtra(key) {
+    // Expand the method directly above the deleted one
+    const keys = fqKeys();
+    const above = keys[keys.indexOf(key) - 1];
+    fqDraft.extras = fqDraft.extras.filter(e => fqKeyOf(e) !== key);
+    if (fqOpen === key) fqOpen = above ?? keys[keys.indexOf(key) + 1] ?? null;
+    fqChanged = true;
+    fqRender();
+  }
+
+  function fqDeleteRegion() {
+    if (!fqDraft || fqDraft.kind !== 'custom') return;
+    deleteCustomRegion(fqDraft.region);
+    closeFreightEditModal();
+  }
+
+  function addFreightExtra() {
+    const e = fqNewExtra();
+    fqDraft.extras.push(e);
+    fqOpen = fqKeyOf(e);
+    fqChanged = true;
+    fqRender();
+  }
+
+  function fqValid() {
+    const pos = v => parseFloat(v) > 0;
+    const ppqOk = t => !t.ppqOn || pos(t.ppq);
+    const rowsOk = fqDraft.order.every(k => {
+      const t = fqDraft.rows[k];
+      const timeOk = t.timeLo !== '' && t.timeLo !== undefined && t.timeHi !== '' && t.timeHi !== undefined && parseFloat(t.timeHi) >= parseFloat(t.timeLo);
+      return (t.quoteType === 'Calculated Quote' || timeOk) && (t.quoteType !== 'Flat Rate' || pos(t.customPrice)) && ppqOk(t);
+    });
+    return rowsOk && fqDraft.extras.every(e =>
+      e.method && e.price !== '' && parseFloat(e.price) >= 0 && e.timeLo !== '' && e.timeHi !== '' &&
+      parseFloat(e.timeHi) >= parseFloat(e.timeLo) && ppqOk(e));
+  }
+
+  function fqUpdateSave() {
+    document.getElementById('fq-save-btn').disabled = !(fqChanged && fqValid());
+  }
+
+  function saveFreightEdit() {
+    if (!fqDraft || !fqValid()) return;
+    const clean = t => {
+      const o = { quoteType: t.quoteType };
+      if (t.quoteType !== 'Calculated Quote') {
+        o.timeLo = parseInt(t.timeLo, 10); o.timeHi = parseInt(t.timeHi, 10);
+      }
+      if (t.quoteType === 'Flat Rate') {
+        o.customPrice = parseFloat(t.customPrice);
+        if (t.ppqOn) { o.ppqOn = true; o.ppq = parseFloat(t.ppq); }
+      }
+      return o;
+    };
+    const extras = fqDraft.extras.map(e => ({
+      id: e.id, method: e.method, timeLo: parseInt(e.timeLo, 10), timeHi: parseInt(e.timeHi, 10),
+      price: parseFloat(e.price), ppqOn: !!e.ppqOn, ppq: e.ppqOn ? parseFloat(e.ppq) : '', inv: e.inv,
+    }));
+    const r = fqDraft.region;
+    if (fqDraft.kind === 'freight') {
+      const d = freightData[r];
+      fqDraft.order.forEach(k => { d[k] = clean(fqDraft.rows[k]); });
+      d.extras = extras;
+      renderFreightCards();
+    } else if (fqDraft.kind === 'custom') {
+      const c = customRegions.find(x => x.id === r);
+      c.rows = extras;
+      if (!c.rows.length) customRegions = customRegions.filter(x => x.id !== r);
+      renderCustomCards();
+    } else {
+      const d = parcelData[r];
+      const std = clean(fqDraft.rows.std);
+      d.quoteType = std.quoteType;
+      d.customPrice = std.customPrice; d.ppqOn = std.ppqOn; d.ppq = std.ppq;
+      d.timeLo = std.timeLo; d.timeHi = std.timeHi;
+      if (fqDraft.rows.exp) {
+        const exp = clean(fqDraft.rows.exp);
+        d.expressQuoteType = exp.quoteType;
+        d.expressCustomPrice = exp.customPrice; d.expressPpqOn = exp.ppqOn; d.expressPpq = exp.ppq;
+        d.expressTimeLo = exp.timeLo; d.expressTimeHi = exp.timeHi;
+      }
+      d.extras = extras;
+      renderParcelCards();
     }
+    closeFreightEditModal();
+  }
 
-    clearTimeout(inhomeTimers[region]);
-    // Show row with loading dots; hide link until quote is ready
-    const timeEl = document.getElementById(`${region}-inhome-time`);
-    timeEl.innerHTML = '<span class="dots calculating-dots">•••</span>';
-    priceEl.innerHTML = '<span class="dots calculating-dots">•••</span>';
-    resultRow.classList.remove('hidden');
-    link.classList.add('hidden');
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('freight-edit-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeFreightEditModal();
+    });
+  });
 
-    inhomeTimers[region] = setTimeout(() => {
-      const fmt = n => '$' + n.toFixed(2);
-      const priceMap = { us: ['usLo','usHi'], eu: ['euLo','euHi'], row: ['rowLo','rowHi'] };
-      const [loKey, hiKey] = priceMap[region];
-      const lo = Math.round(currentPrices[loKey] * 2 / 5) * 5;
-      const hi = Math.round(currentPrices[hiKey] * 2 / 5) * 5;
-      timeEl.textContent = '2-4 days';
-      priceEl.innerHTML = `<strong>${fmt(lo)}-${fmt(hi)}</strong>`;
-      link.textContent = '- Remove In-Home Delivery';
-      link.classList.remove('hidden');
-    }, 1800);
+  // Parcel cards: Standard (all regions) + Express (US/Europe) rows, plus seller-added methods
+  function renderParcelCards() {
+    renderInvRateNotes();
+    ['us', 'eu', 'row'].forEach(r => {
+      const d = parcelData[r];
+      const rowHTML = (qt, custom, ppqOn, ppq, calc) =>
+        qt === 'Flat Rate' ? formatPriceDisplay(custom, ppqOn ? ppq : null)
+        : qt === 'Free Shipping' ? '<strong>$0</strong>'
+        : `<strong>${calc}</strong>`;
+      document.getElementById(`parcel-${r}-method`).textContent = fqDisplayMethod(d.method);
+      document.getElementById(`parcel-${r}-quote-label`).textContent = quoteLabelOf(d.quoteType, d.customPrice);
+      document.getElementById(`parcel-${r}-price`).innerHTML = rowHTML(d.quoteType, d.customPrice, d.ppqOn, d.ppq, d.price);
+      document.getElementById(`parcel-${r}-time`).textContent = d.time;
+      applyRowTime(`parcel-${r}-time`, d);
+      if (r !== 'row') {
+        document.getElementById(`parcel-${r}-express-method`).textContent = fqDisplayMethod(d.expressMethod);
+        document.getElementById(`parcel-${r}-express-quote-label`).textContent = quoteLabelOf(d.expressQuoteType, d.expressCustomPrice);
+        document.getElementById(`parcel-${r}-express-price`).innerHTML = rowHTML(d.expressQuoteType, d.expressCustomPrice, d.expressPpqOn, d.expressPpq, d.expressPrice || d.price);
+        if (d.expressTime) document.getElementById(`parcel-${r}-express-time`).textContent = d.expressTime;
+        applyRowTime(`parcel-${r}-express-time`, { quoteType: d.expressQuoteType, timeLo: d.expressTimeLo, timeHi: d.expressTimeHi });
+      }
+      document.getElementById(`parcel-extras-${r}`).innerHTML = extrasRowsHTML(d.extras || []);
+    });
   }
 
   function showState(state) {
@@ -3095,6 +3897,7 @@ body {
     document.getElementById('state-calculated').classList.toggle('hidden',      state !== 'calculated');
     document.getElementById('state-multi-pkg').classList.toggle('hidden',       state !== 'multi');
     document.getElementById('state-parcel').classList.toggle('hidden',          state !== 'parcel');
+    try { syncInventoryForState(state); } catch (e) { /* inventory data not initialised yet */ }
   }
 
   function toggleCustomSelect(id) {
@@ -3169,18 +3972,27 @@ body {
   }
 
   function populateMethodOptions() {
-    const isFreight = (currentState === 'calculated');
-    const methods = isFreight
-      ? ['Standard Parcel', 'Express Parcel', 'Front Door Delivery', 'In-Home Shipping']
-      : ['DHL Standard Parcel (5-14 Days)', 'DHL Express Parcel (1-3 Days)', 'Front Door Delivery', 'In-Home Delivery'];
+    // Locations outside US / Europe / Rest of the World use generic parcel names (no DHL)
+    const methods = ['Standard Parcel', 'Express Parcel', 'Front-Door Delivery', 'In-Home Delivery'];
     const dropdown = document.querySelector('#modal-method-select .custom-select-dropdown');
     dropdown.innerHTML = methods.map(m =>
       `<div class="custom-select-option" onclick="pickModalOption(this,'modal-method-select')">${m}</div>`
     ).join('');
   }
 
+  // Locations that already have a module aren't offered again: sellers add more quotes in that module
+  function syncLocationOptions() {
+    const taken = customRegions.map(c => c.location);
+    const opts = Array.from(document.querySelectorAll('#modal-location-select .custom-select-option'));
+    opts.forEach(o => o.classList.toggle('hidden', taken.includes(o.textContent.trim())));
+    // Nothing left to add: the CTA goes away
+    const btn = document.getElementById('add-own-quote-btn');
+    if (btn) btn.classList.toggle('hidden', opts.every(o => o.classList.contains('hidden')));
+  }
+
   function openQuoteModal() {
     quoteModalChanged = false;
+    syncLocationOptions();
     populateMethodOptions();
     ['modal-location-select','modal-method-select'].forEach(id => {
       const el = document.getElementById(id);
@@ -3222,60 +4034,8 @@ body {
     const daysFrom = document.getElementById('modal-days-from').value;
     const daysTo   = document.getElementById('modal-days-to').value;
 
-    const quoteType     = price === 0 ? 'Free Shipping' : 'Flat Rate';
-    const priceDisplay  = price === 0 ? '<strong>$0.00</strong>' : `<strong>$${price.toFixed(2)}</strong>`;
-    const displayMethod = method.replace(/\s*\([^)]*\)$/, '').trim();
-    const cardHTML = `
-      <div class="custom-quote-header">
-        <div class="region-name" style="margin-bottom:0">
-          <img src="globe.svg" alt="" width="18" height="18">
-          ${location}
-        </div>
-        <div class="meatball-menu-wrap">
-          <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
-            <img src="hamburger menu.svg" width="20" height="20" alt="Options">
-          </button>
-          <div class="meatball-popover">
-            <div class="popover-option" onclick="editQuote(this)">Edit</div>
-            <div class="popover-option danger" onclick="deleteQuote(this)">Delete</div>
-          </div>
-        </div>
-      </div>
-      <div class="region-cols-3">
-        <div>
-          <div class="region-col-label">Shipping Method</div>
-          <div class="region-col-value">${displayMethod}</div>
-        </div>
-        <div>
-          <div class="region-col-label">Shipping Time</div>
-          <div class="region-col-value">${daysFrom}-${daysTo} days</div>
-        </div>
-        <div>
-          <div class="region-col-label">Buyer Will Pay</div>
-          <div class="region-col-value">${priceDisplay}</div>
-          <div class="region-col-sub">${quoteType}</div>
-        </div>
-      </div>`;
-
-    if (editingCard) {
-      editingCard.innerHTML = cardHTML;
-      editingCard.dataset.location = location;
-      editingCard.dataset.method   = method;
-      editingCard.dataset.price    = price;
-      editingCard.dataset.daysFrom = daysFrom;
-      editingCard.dataset.daysTo   = daysTo;
-      editingCard = null;
-    } else {
-      const card = document.createElement('div');
-      card.className = 'custom-quote-card';
-      card.dataset.location = location;
-      card.dataset.method   = method;
-      card.dataset.price    = price;
-      card.dataset.daysFrom = daysFrom;
-      card.dataset.daysTo   = daysTo;
-      card.innerHTML = cardHTML;
-      document.getElementById('custom-quotes-list').appendChild(card);
-    }
+    addCustomRow(location, { method: method.replace(/\s*\([^)]*\)$/, '').trim(), timeLo: parseInt(daysFrom, 10), timeHi: parseInt(daysTo, 10), price });
+    renderCustomCards();
     closeQuoteModal();
   }
 
@@ -3286,34 +4046,62 @@ body {
     if (!isOpen) wrap.classList.add('open');
   }
 
-  function editQuote(btn) {
-    const wrap = btn.closest('.meatball-menu-wrap');
-    wrap.classList.remove('open');
-    editingCard = btn.closest('.custom-quote-card');
-    const d = editingCard.dataset;
+  // ── Regions outside US / Europe / Rest of the World ───────────────
+  // One module per location holding every flat-rate method for it. Methods are added and removed
+  // in the Edit Quote modal (every row is deletable); the module itself is deleted from its menu.
+  let customRegions = [];
+  let customNextId = 1;
 
-    populateMethodOptions();
-    // Pre-fill modal selects
-    ['modal-location-select','modal-method-select'].forEach(id => {
-      const el = document.getElementById(id);
-      el.querySelector('.custom-select-value').textContent = '';
-      el.querySelectorAll('.custom-select-option').forEach(o => {
-        const match = id === 'modal-location-select' ? o.textContent === d.location : o.textContent === d.method;
-        o.classList.toggle('active', match);
-        if (match) el.querySelector('.custom-select-value').textContent = o.textContent;
-      });
-      el.classList.remove('open');
-    });
+  function addCustomRow(location, row) {
+    let c = customRegions.find(x => x.location === location);
+    if (!c) { c = { id: customNextId++, location, rows: [] }; customRegions.push(c); }
+    c.rows.push({ id: fqNextId++, ppqOn: false, ppq: '', ...row });
+  }
 
-    document.getElementById('modal-price').value     = d.price;
-    document.getElementById('modal-days-from').value = d.daysFrom;
-    document.getElementById('modal-days-to').value   = d.daysTo;
-    quoteModalChanged = false;
-    document.getElementById('modal-title').textContent    = 'Edit Your Own Quote';
-    document.getElementById('modal-save-btn').textContent = 'Update';
-    document.getElementById('modal-save-btn').disabled    = true;
-    document.getElementById('modal-delete-btn').classList.add('visible');
-    document.getElementById('quote-modal-overlay').classList.remove('hidden');
+  function renderCustomCards() {
+    document.getElementById('custom-quotes-list').innerHTML = customRegions.map(c => {
+      const rows = extrasRowsHTML(c.rows).replace('<hr class="parcel-card-divider parcel-card-divider--inset">', '');
+      return `<div class="custom-quote-card" data-region-id="${c.id}">
+        <div class="custom-quote-header">
+          <div class="region-name" style="margin-bottom:0">
+            <img src="globe.svg" alt="" width="18" height="18">
+            ${c.location}
+          </div>
+          <div class="meatball-menu-wrap">
+            <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
+              <img src="hamburger menu.svg" width="20" height="20" alt="Options">
+            </button>
+            <div class="meatball-popover">
+              <div class="popover-option" onclick="openCustomRegion(${c.id})">Edit</div>
+              <div class="popover-option danger" onclick="deleteCustomRegion(${c.id})">Delete</div>
+            </div>
+          </div>
+        </div>
+        ${rows}
+        <button class="add-method-link" type="button" onclick="openCustomRegion(${c.id}, true)">+ Add Shipping Method</button>
+      </div>`;
+    }).join('');
+    syncLocationOptions();
+  }
+
+  function deleteCustomRegion(id) {
+    customRegions = customRegions.filter(c => c.id !== id);
+    renderCustomCards();
+  }
+
+  function removeInventoryRows() {
+    customRegions.forEach(c => { c.rows = c.rows.filter(r => !r.inv); });
+    customRegions = customRegions.filter(c => c.rows.length);
+    renderCustomCards();
+  }
+
+  function openCustomRegion(id, addNew = false) {
+    const c = customRegions.find(x => x.id === id);
+    // Locations outside US / Europe / Rest of the World use generic parcel names (no DHL)
+    const base = ['Standard Parcel', 'Express Parcel', 'Front-Door Delivery', 'In-Home Delivery'];
+    const options = Array.from(new Set(base.concat(FQ_FREIGHT_EXTRAS, c.rows.map(r => r.method))));
+    fqOpenModal({ kind: 'custom', region: id, name: c.location, order: [], rows: {}, meta: {},
+      extras: fqCopyExtras(c.rows), extraOptions: options }, addNew);
   }
 
   function deleteFromModal() {
@@ -3321,9 +4109,6 @@ body {
     closeQuoteModal();
   }
 
-  function deleteQuote(btn) {
-    btn.closest('.custom-quote-card').remove();
-  }
 
   // Close modal on overlay click
   document.getElementById('quote-modal-overlay').addEventListener('click', function(e) {
@@ -3407,6 +4192,13 @@ body {
               <input type="number" id="weight-${n}" placeholder="0" min="0" oninput="checkDimensions(true)">
               <span class="unit-label">lbs</span>
             </div>
+              <div class="weight-helper">
+                All dimensions must be for a
+                <span class="step-tooltip">
+                  <span class="tooltip-text">single quantity </span><span class="weight-helper-last"><span class="tooltip-text">purchase</span><img class="help-icon weight-helper-icon" src="info-outline-14.svg" alt=""></span>
+                  <div class="tooltip-content">Enter the package dimensions as if the buyer were purchasing a quantity of 1.</div>
+                </span>
+              </div>
           </div>
         </div>
         <div class="saved-pkg-section">
@@ -3453,9 +4245,9 @@ body {
 
   // ── Parcel logic ───────────────────────────────────────────────────
   let parcelData = {
-    us:  { name: 'United States',     method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
-    eu:  { name: 'Europe',            method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
-    row: { name: 'Rest of the World', method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
+    us:  { name: 'United States',     method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', extras: [] },
+    eu:  { name: 'Europe',            method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', extras: [] },
+    row: { name: 'Rest of the World', method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', extras: [] },
   };
   let editingParcelRegion = null;
   let parcelEditChanged = false;
@@ -3469,11 +4261,7 @@ body {
   }
 
   function hasModifiedFreightQuotes() {
-    const anyInHome = ['us', 'eu', 'row'].some(r =>
-      !document.getElementById(`${r}-inhome-result`).classList.contains('hidden')
-    );
-    const hasCustomCards = document.getElementById('custom-quotes-list').children.length > 0;
-    return anyInHome || hasCustomCards;
+    return document.getElementById('custom-quotes-list').children.length > 0;
   }
 
   function migrateSellerParcelQuotesToCustomCards() {
@@ -3555,17 +4343,31 @@ body {
       delete parcelData[r].customTimeLo; delete parcelData[r].customTimeHi;
       delete parcelData[r].expressCustomPrice;
       delete parcelData[r].expressCustomTimeLo; delete parcelData[r].expressCustomTimeHi;
+      delete parcelData[r].ppqOn; delete parcelData[r].ppq;
+      delete parcelData[r].expressPpqOn; delete parcelData[r].expressPpq;
+      parcelData[r].extras = [];
       document.getElementById(`parcel-divider-${r}`).classList.add('hidden');
       document.getElementById(`parcel-express-loading-${r}`).classList.add('hidden');
       document.getElementById(`parcel-express-resolved-${r}`).classList.add('hidden');
       document.getElementById(`parcel-remove-${r}`).classList.add('hidden');
       document.getElementById(`parcel-add-${r}`).classList.remove('hidden');
     });
-    resetInHome();
+    Object.keys(invApplied).filter(k => k.startsWith('parcel-')).forEach(k => delete invApplied[k]);
+    queueInvDefaults();
+    renderParcelCards();
   }
 
   function isParcel(l, w, h, wt) {
     return wt < 150;
+  }
+
+  // Express Parcel is mandatory for US and Europe: always shown on the card
+  function showMandatoryExpress(region) {
+    document.getElementById(`parcel-divider-${region}`).classList.remove('hidden');
+    document.getElementById(`parcel-express-loading-${region}`).classList.add('hidden');
+    document.getElementById(`parcel-express-resolved-${region}`).classList.remove('hidden');
+    document.getElementById(`parcel-remove-${region}`).classList.add('hidden');
+    document.getElementById(`parcel-add-${region}`).classList.remove('hidden');
   }
 
   function updateParcelQuotes(l, w, h, wt) {
@@ -3612,22 +4414,9 @@ body {
     });
 
     ['us','eu','row'].forEach(r => {
-      const d = parcelData[r];
-      const displayMethod = d.method.replace(/\s*\([^)]*\)$/, '').trim();
-      document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-      document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType;
-      // Only update price/time DOM for Calculated Quote regions — seller-set values stay untouched
-      if (d.quoteType === 'Calculated Quote') {
-        document.getElementById(`parcel-${r}-time`).textContent   = d.time;
-        document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>${d.price}</strong>`;
-      }
-      // Refresh express row if already visible and still 1stDibs
-      const expResolved = document.getElementById(`parcel-express-resolved-${r}`);
-      if (expResolved && !expResolved.classList.contains('hidden') && d.expressQuoteType === 'Calculated Quote') {
-        document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>${d.expressPrice}</strong>`;
-        document.getElementById(`parcel-${r}-express-time`).textContent = d.expressTime;
-      }
+      if (r !== 'row') showMandatoryExpress(r);
     });
+    renderParcelCards();
     showState('parcel');
   }
 
@@ -3635,7 +4424,11 @@ body {
     document.querySelectorAll('.meatball-menu-wrap.open').forEach(w => w.classList.remove('open'));
     editingParcelRegion = region;
     parcelEditChanged = false;
+    expandMethodGroup(1);
+    collapseMethodGroup(2);
     const d = parcelData[region];
+    // Location field is hidden for mandatory regions (US, EU, ROW)
+    document.getElementById('parcel-edit-location-field').style.display = ['us', 'eu', 'row'].includes(region) ? 'none' : '';
     document.getElementById('parcel-edit-title').textContent = `Edit Quote for ${d.name}`;
     document.getElementById('parcel-edit-location-val').textContent = d.name;
     // Restore all method option visibility before setting exclusivity
@@ -3676,11 +4469,17 @@ body {
       document.getElementById('parcel-method-group-2').classList.remove('hidden');
       document.getElementById('parcel-method-divider').classList.remove('hidden');
       document.getElementById('parcel-add-method-btn').classList.add('hidden');
+      expandMethodGroup(1);
+      collapseMethodGroup(2);
     } else {
       document.getElementById('parcel-method-group-2').classList.add('hidden');
       document.getElementById('parcel-method-divider').classList.add('hidden');
       document.getElementById('parcel-add-method-btn').classList.remove('hidden');
     }
+    // Express is mandatory for US and Europe, so it can't be removed in the modal
+    document.querySelectorAll('#parcel-edit-overlay .parcel-remove-method-link').forEach(b => {
+      b.style.display = region === 'row' ? '' : 'none';
+    });
     document.getElementById('parcel-edit-save-btn').disabled = true;
     document.getElementById('parcel-edit-overlay').classList.remove('hidden');
   }
@@ -3776,6 +4575,8 @@ body {
     document.getElementById('parcel-method-group-2').classList.remove('hidden');
     document.getElementById('parcel-method-divider').classList.remove('hidden');
     document.getElementById('parcel-add-method-btn').classList.add('hidden');
+    collapseMethodGroup(1);
+    expandMethodGroup(2);
     parcelEditChanged = true;
     checkParcelEditValid();
   }
@@ -3783,6 +4584,7 @@ body {
   function removeParcelMethod() {
     document.getElementById('parcel-method-group-2').classList.add('hidden');
     document.getElementById('parcel-method-divider').classList.add('hidden');
+    expandMethodGroup(1);
     document.getElementById('parcel-add-method-btn').classList.remove('hidden');
     // Restore all method options in group 1
     document.getElementById('parcel-edit-method-select').querySelectorAll('.custom-select-option').forEach(o => {
@@ -3821,6 +4623,28 @@ body {
   function closeParcelEditModal() {
     document.getElementById('parcel-edit-overlay').classList.add('hidden');
     editingParcelRegion = null;
+  }
+
+  // Accordion: only one shipping method expanded at a time (ported from Multi-Qty-v2)
+  function toggleMethodGroupCollapse(groupNum) {
+    const content = document.getElementById(`parcel-group-${groupNum}-content`);
+    const otherGroupNum = groupNum === 1 ? 2 : 1;
+    if (content.classList.contains('collapsed')) {
+      expandMethodGroup(groupNum);
+      collapseMethodGroup(otherGroupNum);
+    } else {
+      collapseMethodGroup(groupNum);
+    }
+  }
+
+  function collapseMethodGroup(groupNum) {
+    document.getElementById(`parcel-group-${groupNum}-content`).classList.add('collapsed');
+    document.getElementById(`parcel-method-group-${groupNum}`).querySelector('.method-header-chevron').classList.add('collapsed');
+  }
+
+  function expandMethodGroup(groupNum) {
+    document.getElementById(`parcel-group-${groupNum}-content`).classList.remove('collapsed');
+    document.getElementById(`parcel-method-group-${groupNum}`).querySelector('.method-header-chevron').classList.remove('collapsed');
   }
 
   function saveParcelEdit() {
@@ -3927,7 +4751,7 @@ body {
     { name: 'Seller Storefront', isDefault: true, localPickup: true,
       address: '9106 Queen Street, London, E80 3XH',
       contactName: 'Ed Koren', phone: '5555551234', email: 'ed@gmail.com',
-      selected: true,
+      selected: false,
       _fields: { address:'9106 Queen Street', apt:'', country:'United Kingdom', city:'London', state:'', zip:'E80 3XH' } },
     { name: 'Paris, FR', isDefault: false, localPickup: true,
       address: '130 rue du Faubourg Saint-Honoré, Paris',
@@ -3937,7 +4761,7 @@ body {
     { name: 'Brooklyn, NY', isDefault: false, localPickup: true,
       address: '42 Rochester Avenue, New York, 11233',
       contactName: 'Paras Memon', phone: '9292889395', email: 'pearmemon@gmail.com',
-      selected: false,
+      selected: true,
       _fields: { address:'42 Rochester Avenue', apt:'', country:'United States', city:'New York', state:'NY', zip:'11233' } },
   ];
   let invLocSelectedIdx = 0;
@@ -3945,77 +4769,126 @@ body {
 
   // Pre-set quotes available per inventory location
   const INVENTORY_LOCATION_QUOTES = {
+    // Flat rates saved on the inventory location. They apply to their region whatever the package type.
+    'Brooklyn, NY': [
+      { location: 'United States', method: 'DHL Standard Parcel',  timeLo: 1, timeHi: 5,  price: 0 },
+      { location: 'United States', method: 'In-Home Delivery',     timeLo: 1, timeHi: 5,  price: 0 },
+      { location: 'Canada',        method: 'Front-Door Delivery',  timeLo: 5, timeHi: 14, price: 0 }
+    ],
     'Seller Storefront': [
-      { location: 'United States', method: 'In-Home Shipping', timeLo: 1, timeHi: 3, price: 35 }
+      { location: 'United States', method: 'DHL Standard Parcel',  timeLo: 1, timeHi: 5,  price: 0 },
+      { location: 'United States', method: 'In-Home Delivery',     timeLo: 1, timeHi: 5,  price: 0 }
     ],
     'Paris, FR': [
-      { location: 'United States', method: 'In-Home Shipping', timeLo: 1, timeHi: 3, price: 50 },
-      { location: 'Australia',     method: 'In-Home Shipping', timeLo: 1, timeHi: 3, price: 50 }
+      { location: 'United States', method: 'DHL Standard Parcel',  timeLo: 1, timeHi: 5,  price: 0 },
+      { location: 'United States', method: 'In-Home Delivery',     timeLo: 1, timeHi: 5,  price: 0 },
+      { location: 'Canada',        method: 'Front-Door Delivery',  timeLo: 5, timeHi: 14, price: 0 }
     ]
   };
 
-  function updateInvQuotesLink() {
+  const INV_REGION_KEYS = { 'United States': 'us', 'Europe': 'eu', 'Rest of the World': 'row' };
+
+  // Quotes saved on the selected inventory location show up as modules right away, before Steps 1 and 2.
+  // Once quotes exist, the ones for US / Europe / Rest of the World move into those regions' cards and
+  // replace the calculated quote there (see applyInvDefaults); other places keep their own module.
+  const invPending = { freight: new Set(), parcel: new Set() };   // regions still to receive the flat rate
+  const invApplied = {};                                          // 'kind-region' -> row the flat rate went to
+  const invStore = kind => (kind === 'freight' ? freightData : parcelData);
+  const invReady = () => currentState === 'parcel' || currentState === 'calculated';
+
+  function loadInventoryQuotes(onlyRegions = false) {
     const loc = INV_LOCATIONS.find(l => l.selected) || INV_LOCATIONS[0];
-    const quotes = INVENTORY_LOCATION_QUOTES[loc.name] || [];
-    const link = document.getElementById('inv-quotes-link');
-    if (quotes.length === 0) {
-      link.classList.add('hidden');
-    } else {
-      const n = quotes.length;
-      link.textContent = `+ Add ${n} Quote${n !== 1 ? 's' : ''} Available for This Inventory Location`;
-      link.classList.remove('hidden');
-    }
+    const ready = invReady();
+    (INVENTORY_LOCATION_QUOTES[loc.name] || []).forEach(q => {
+      const isRegion = !!INV_REGION_KEYS[q.location];
+      if (ready && isRegion) return;            // region cards already hold these
+      if (onlyRegions && !isRegion) return;
+      const exists = customRegions.some(c => c.location === q.location && c.rows.some(r => r.inv && r.method === q.method));
+      if (!exists) addCustomRow(q.location, { method: q.method, timeLo: q.timeLo, timeHi: q.timeHi, price: q.price, inv: true });
+    });
+    renderCustomCards();
   }
 
-  function loadInventoryQuotes() {
-    const loc = INV_LOCATIONS.find(l => l.selected) || INV_LOCATIONS[0];
-    const quotes = INVENTORY_LOCATION_QUOTES[loc.name] || [];
-    const list = document.getElementById('custom-quotes-list');
-    quotes.forEach(q => {
-      const card = document.createElement('div');
-      card.className = 'custom-quote-card';
-      card.dataset.source   = 'inventory';
-      card.dataset.location = q.location;
-      card.dataset.method   = q.method;
-      card.dataset.price    = q.price;
-      card.dataset.daysFrom = q.timeLo;
-      card.dataset.daysTo   = q.timeHi;
-      const quoteType    = q.price === 0 ? 'Free Shipping' : 'Flat Rate';
-      const priceDisplay = q.price === 0 ? '<strong>$0.00</strong>' : `<strong>$${q.price.toFixed(2)}</strong>`;
-      card.innerHTML = `
-        <div class="custom-quote-header">
-          <div class="region-name" style="margin-bottom:0">
-            <img src="globe.svg" alt="" width="18" height="18">
-            ${q.location}
-          </div>
-          <div class="meatball-menu-wrap">
-            <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
-              <img src="hamburger menu.svg" width="20" height="20" alt="Options">
-            </button>
-            <div class="meatball-popover">
-              <div class="popover-option" onclick="editQuote(this)">Edit</div>
-              <div class="popover-option danger" onclick="deleteQuote(this)">Delete</div>
-            </div>
-          </div>
-        </div>
-        <div class="region-cols-3">
-          <div>
-            <div class="region-col-label">Shipping Method</div>
-            <div class="region-col-value">${q.method}</div>
-          </div>
-          <div>
-            <div class="region-col-label">Shipping Time</div>
-            <div class="region-col-value">${q.timeLo}-${q.timeHi} days</div>
-          </div>
-          <div>
-            <div class="region-col-label">Buyer Will Pay</div>
-            <div class="region-col-value">${priceDisplay}</div>
-            <div class="region-col-sub">${quoteType}</div>
-          </div>
-        </div>`;
-      list.appendChild(card);
+  function queueInvDefaults() {
+    ['freight', 'parcel'].forEach(k => ['us', 'eu', 'row'].forEach(r => { if (invQuotesFor(r).length) invPending[k].add(r); }));
+  }
+
+  // Each inventory flat rate lands on its region card: it replaces the calculated quote when the method is
+  // one of the mandatory ones for this package type, and is added as a flat-rate method otherwise.
+  const invRowValues = q => (q.price === 0
+    ? { quoteType: 'Free Shipping', timeLo: q.timeLo, timeHi: q.timeHi }
+    : { quoteType: 'Flat Rate', customPrice: q.price, timeLo: q.timeLo, timeHi: q.timeHi });
+
+  function applyInvDefaults(kind) {
+    const store = invStore(kind);
+    invPending[kind].forEach(r => {
+      const d = store[r];
+      d.extras = (d.extras || []).filter(e => !e.inv);
+      invQuotesFor(r).forEach(q => {
+        const key = invRowKey(kind, q.method, r);
+        if (key === null) {
+          d.extras.push({ id: fqNextId++, method: q.method, timeLo: q.timeLo, timeHi: q.timeHi, price: q.price, ppqOn: false, ppq: '', inv: true });
+        } else if (kind === 'freight') {
+          d[key] = invRowValues(q);
+          invApplied[`freight-${r}-${key}`] = true;
+        } else if (key === 'std') {
+          Object.assign(d, invRowValues(q));
+          invApplied[`parcel-${r}-std`] = true;
+        } else {
+          Object.assign(d, { expressQuoteType: invRowValues(q).quoteType, expressCustomPrice: invRowValues(q).customPrice, expressTimeLo: q.timeLo, expressTimeHi: q.timeHi });
+          invApplied[`parcel-${r}-exp`] = true;
+        }
+      });
     });
-    document.getElementById('inv-quotes-link').classList.add('hidden');
+    invPending[kind].clear();
+  }
+
+  // Region modules built before quotes existed hand their seller-added methods to the region card
+  function absorbRegionModules(kind) {
+    const store = invStore(kind);
+    customRegions = customRegions.filter(c => {
+      const r = INV_REGION_KEYS[c.location];
+      if (!r) return true;
+      c.rows.filter(x => !x.inv).forEach(x => store[r].extras.push({ ...x }));
+      return false;
+    });
+  }
+
+  // Inventory location changed: undo flat rates that came from the old location
+  function revertInvApplied() {
+    Object.keys(invApplied).forEach(k => {
+      const [kind, r, key] = k.split('-');
+      const d = invStore(kind)[r];
+      if (kind === 'freight') {
+        if (d[key] && d[key].quoteType !== 'Calculated Quote') d[key] = { quoteType: 'Calculated Quote' };
+      } else if (key === 'std' && d.quoteType !== 'Calculated Quote') {
+        d.quoteType = 'Calculated Quote';
+        ['customPrice', 'timeLo', 'timeHi', 'ppqOn', 'ppq'].forEach(f => delete d[f]);
+      } else if (key === 'exp' && d.expressQuoteType !== 'Calculated Quote') {
+        d.expressQuoteType = 'Calculated Quote';
+        ['expressCustomPrice', 'expressTimeLo', 'expressTimeHi', 'expressPpqOn', 'expressPpq'].forEach(f => delete d[f]);
+      }
+      delete invApplied[k];
+    });
+    ['freight', 'parcel'].forEach(kind => ['us', 'eu', 'row'].forEach(r => {
+      const d = invStore(kind)[r];
+      d.extras = (d.extras || []).filter(e => !e.inv);
+    }));
+  }
+
+  function syncInventoryForState(state) {
+    if (state === 'locked') {
+      // Back before Steps 1 and 2: region quotes sit in their own modules again
+      loadInventoryQuotes(true);
+      queueInvDefaults();
+    } else if (state === 'parcel' || state === 'calculated') {
+      const kind = state === 'calculated' ? 'freight' : 'parcel';
+      absorbRegionModules(kind);
+      applyInvDefaults(kind);
+      renderFreightCards();
+      renderParcelCards();
+      renderCustomCards();
+    }
   }
 
   function openInvLocModal() {
@@ -4073,8 +4946,13 @@ body {
       if (subs[1]) subs[1].textContent = contact;
     }
     // Remove inventory-location quote cards from previous location; update link for new location
-    document.querySelectorAll('#custom-quotes-list .custom-quote-card[data-source="inventory"]').forEach(c => c.remove());
-    updateInvQuotesLink();
+    removeInventoryRows();
+    revertInvApplied();
+    invPending.freight.clear(); invPending.parcel.clear();
+    loadInventoryQuotes();
+    queueInvDefaults();
+    if (invReady()) syncInventoryForState(currentState);
+    renderInvRateNotes();
     closeInvLocModal();
     // Recalculate parcel quotes if currently showing — origin affects pricing
     if (currentState === 'parcel') { resetToFreshParcelState(); checkDimensions(); }
@@ -4324,7 +5202,10 @@ body {
 
   // Close legacy modals on overlay click
   document.addEventListener('DOMContentLoaded', function() {
-    updateInvQuotesLink();
+    // Quotes saved on the inventory location for places outside the three regions show up right away
+    loadInventoryQuotes();
+    queueInvDefaults();
+    renderInvRateNotes();
     document.getElementById('estimate-modal-overlay').addEventListener('click', function(e) {
       if (e.target === this) closeEstimateModal();
     });
@@ -4348,7 +5229,7 @@ body {
     </div>
     <div class="modal-body">
       <!-- Location (disabled) -->
-      <div class="modal-field">
+      <div class="modal-field" id="parcel-edit-location-field">
         <label class="modal-label">Location</label>
         <div class="custom-select cs-disabled">
           <div class="custom-select-trigger">
@@ -4360,6 +5241,13 @@ body {
 
       <!-- Method group 1 -->
       <div id="parcel-method-group-1" class="parcel-method-group">
+        <button class="method-header" type="button" onclick="toggleMethodGroupCollapse(1)">
+          <svg class="method-header-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.1998 10.3429L11.9998 16.2397L4.7998 10.3429L6.00801 8.85693L11.9998 13.7589L17.9916 8.85693L19.1998 10.3429Z" fill="#222222"/>
+          </svg>
+          Shipping Method No. 1
+        </button>
+        <div id="parcel-group-1-content" class="method-content">
         <div class="modal-field">
           <label class="modal-label">Shipping Method</label>
           <div class="custom-select" id="parcel-edit-method-select">
@@ -4421,6 +5309,7 @@ body {
           </div>
           <div class="modal-est-banner">Estimated Shipping Price: <strong id="parcel-g1-free-est">$50-$100</strong></div>
         </div>
+        </div>
       </div>
 
       <!-- Divider -->
@@ -4428,6 +5317,13 @@ body {
 
       <!-- Method group 2 (hidden by default) -->
       <div id="parcel-method-group-2" class="parcel-method-group hidden">
+        <button class="method-header" type="button" onclick="toggleMethodGroupCollapse(2)">
+          <svg class="method-header-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.1998 10.3429L11.9998 16.2397L4.7998 10.3429L6.00801 8.85693L11.9998 13.7589L17.9916 8.85693L19.1998 10.3429Z" fill="#222222"/>
+          </svg>
+          Shipping Method No. 2
+        </button>
+        <div id="parcel-group-2-content" class="method-content">
         <div class="modal-field">
           <label class="modal-label">Shipping Method</label>
           <div class="custom-select" id="parcel-edit-method-2-select">
@@ -4487,6 +5383,7 @@ body {
           <div class="modal-est-banner">Estimated Shipping Price: <strong id="parcel-g2-free-est">$50-$100</strong></div>
         </div>
         <button class="parcel-remove-method-link" onclick="removeParcelMethod()">- Remove Shipping Method</button>
+        </div>
       </div>
 
       <!-- Add shipping method link -->
@@ -4496,6 +5393,29 @@ body {
       <div class="modal-footer-right">
         <button class="modal-cancel" onclick="closeParcelEditModal()">Cancel</button>
         <button class="modal-save" id="parcel-edit-save-btn" onclick="saveParcelEdit()" disabled>Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Freight Edit Quote Modal ── -->
+<div id="freight-edit-overlay" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="fq-title">Edit Quote for United States</span>
+      <button class="modal-close" onclick="closeFreightEditModal()">
+        <img src="Close.svg" width="24" height="24" alt="Close">
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="fq-sections" class="fq-sections"></div>
+      <button class="modal-add-method-link fq-add-link" type="button" onclick="addFreightExtra()">+ Add Shipping Method</button>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-delete" id="fq-delete-all-btn" onclick="fqDeleteRegion()">Delete</button>
+      <div class="modal-footer-right">
+        <button class="modal-cancel" onclick="closeFreightEditModal()">Cancel</button>
+        <button class="modal-save" id="fq-save-btn" onclick="saveFreightEdit()" disabled>Update</button>
       </div>
     </div>
   </div>
