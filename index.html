@@ -3535,8 +3535,8 @@ body {
       if (method === 'Front-Door Delivery') return 'fd';
       if (method === 'In-Home Delivery' && freightData[regionKey].ih) return 'ih';
     } else {
-      if (method === 'DHL Standard Parcel') return 'std';
-      if (method === 'DHL Express Parcel' && regionKey !== 'row') return 'exp';
+      if (method === 'Standard Parcel') return 'std';
+      if (method === 'Express Parcel' && regionKey !== 'row') return 'exp';
     }
     return null;
   }
@@ -3547,6 +3547,7 @@ body {
 
   // Whether a mandatory row already carries the inventory rate ($0 means free shipping)
   const invUsing = (row, q) => !!row && (q.price === 0 ? row.quoteType === 'Free Shipping' : (row.quoteType === 'Flat Rate' && parseFloat(row.customPrice) === q.price));
+  const invName = n => (n || '').replace(/^DHL\s+/, '');
   const invTypeWord = q => (q.price === 0 ? 'Free Shipping' : 'Flat Rate');
 
   function fqInvHintHTML(key, t) {
@@ -3554,7 +3555,7 @@ body {
     if (!q) return '';
     // Once the seller has used the inventory rate there's nothing left to offer; it returns if they switch back
     if (invUsing(t, q)) return '';
-    return `<p class="fq-inv-hint">You set a ${invTypeWord(q)} ${fqDraft.meta[key].name} quote for this inventory location in your inventory settings: <strong>$${q.price}</strong>. <button type="button" onclick="fqUseInvRate('${key}')">Use this rate</button></p>`;
+    return `<p class="fq-inv-hint">You set a ${invTypeWord(q)} ${invName(fqDraft.meta[key].name)} quote for this inventory location in your inventory settings: <strong>$${q.price}</strong>. <button type="button" onclick="fqUseInvRate('${key}')">Use this rate</button></p>`;
   }
   function fqUseInvRate(key) {
     const t = fqTarget(key), q = invQuoteForRow(fqDraft.region, fqDraft.kind, key);
@@ -3582,7 +3583,7 @@ body {
           return q && !invUsing(row, q);
         });
         if (!key || invNoteDismissed.has(`${kind}-${r}`)) { el.classList.add('hidden'); el.innerHTML = ''; return; }
-        el.innerHTML = `<span class="inv-note-text">Flat Rate, ${nameOf(key)} quote available. <button type="button" onclick="openInvRate('${kind}','${r}','${key}')">Review</button></span>
+        el.innerHTML = `<span class="inv-note-text">Flat Rate, ${invName(nameOf(key))} quote available. <button type="button" onclick="openInvRate('${kind}','${r}','${key}')">Review</button></span>
           <button type="button" class="inv-note-close" aria-label="Close" onclick="dismissInvNote('${kind}','${r}')">&times;</button>`;
         el.classList.remove('hidden');
       });
@@ -4633,16 +4634,16 @@ body {
   const INVENTORY_LOCATION_QUOTES = {
     // Flat rates saved on the inventory location. They apply to their region whatever the package type.
     'Brooklyn, NY': [
-      { location: 'United States', method: 'DHL Standard Parcel',  timeLo: 1, timeHi: 5,  price: 0 },
+      { location: 'United States', method: 'Standard Parcel',      timeLo: 1, timeHi: 5,  price: 0 },
       { location: 'United States', method: 'In-Home Delivery',     timeLo: 1, timeHi: 5,  price: 0 },
       { location: 'Canada',        method: 'Front-Door Delivery',  timeLo: 5, timeHi: 14, price: 0 }
     ],
     'Seller Storefront': [
-      { location: 'United States', method: 'DHL Standard Parcel',  timeLo: 1, timeHi: 5,  price: 0 },
+      { location: 'United States', method: 'Standard Parcel',      timeLo: 1, timeHi: 5,  price: 0 },
       { location: 'United States', method: 'In-Home Delivery',     timeLo: 1, timeHi: 5,  price: 0 }
     ],
     'Paris, FR': [
-      { location: 'United States', method: 'DHL Standard Parcel',  timeLo: 1, timeHi: 5,  price: 0 },
+      { location: 'United States', method: 'Standard Parcel',      timeLo: 1, timeHi: 5,  price: 0 },
       { location: 'United States', method: 'In-Home Delivery',     timeLo: 1, timeHi: 5,  price: 0 },
       { location: 'Canada',        method: 'Front-Door Delivery',  timeLo: 5, timeHi: 14, price: 0 }
     ]
