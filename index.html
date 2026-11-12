@@ -3050,86 +3050,7 @@ body {
 
 </div><!-- /page -->
 
-<!-- ── Add Your Own Quote Modal ── -->
-<div id="quote-modal-overlay" class="modal-overlay hidden">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="modal-title">Add Your Own Quote</span>
-      <button class="modal-close" onclick="closeQuoteModal()">
-        <img src="Close.svg" width="24" height="24" alt="Close">
-      </button>
-    </div>
-    <div class="modal-body">
-      <!-- Location -->
-      <div class="modal-field">
-        <label class="modal-label">Location</label>
-        <div class="custom-select" id="modal-location-select">
-          <div class="custom-select-trigger" onclick="toggleCustomSelect('modal-location-select')">
-            <span class="custom-select-value"></span>
-            <img class="custom-select-chevron" src="Down icon.svg" alt="">
-          </div>
-          <div class="custom-select-dropdown">
-            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Canada</div>
-            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Australia</div>
-            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Japan</div>
-            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">United Kingdom</div>
-          </div>
-        </div>
-      </div>
-      <!-- Shipping Method -->
-      <div class="modal-field">
-        <label class="modal-label">Shipping Method</label>
-        <div class="custom-select" id="modal-method-select">
-          <div class="custom-select-trigger" onclick="toggleCustomSelect('modal-method-select')">
-            <span class="custom-select-value"></span>
-            <img class="custom-select-chevron" src="Down icon.svg" alt="">
-          </div>
-          <div class="custom-select-dropdown">
-          </div>
-        </div>
-      </div>
-      <!-- Shipping Time -->
-      <div class="modal-field">
-        <label class="modal-label">Shipping Time</label>
-        <div class="modal-time-row">
-          <div class="modal-time-input">
-            <input type="number" id="modal-days-from" placeholder="" min="0" oninput="onQuoteInput()">
-            <span class="modal-time-unit">days</span>
-          </div>
-          <span class="modal-time-to">to</span>
-          <div class="modal-time-input">
-            <input type="number" id="modal-days-to" placeholder="" min="0" oninput="onQuoteInput()">
-            <span class="modal-time-unit">days</span>
-          </div>
-        </div>
-      </div>
-      <!-- Buyer Will Pay -->
-      <div class="modal-field">
-        <label class="modal-label">Buyer Will Pay</label>
-        <div class="modal-price-input">
-          <span class="modal-price-prefix">$</span>
-          <input type="number" id="modal-price" placeholder="" min="0" oninput="onQuoteInput()">
-          <span class="modal-price-suffix">USD</span>
-        </div>
-        <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-delete" id="modal-delete-btn" onclick="deleteFromModal()">
-        <img src="delete icon.svg" width="20" height="20" alt="">
-        Delete
-      </button>
-      <div class="modal-footer-right">
-        <button class="modal-cancel" onclick="closeQuoteModal()">Cancel</button>
-        <button class="modal-save" id="modal-save-btn" onclick="saveQuote()" disabled>Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-  let editingCard = null;
-  let quoteModalChanged = false;
   let currentAnswer = null;
   let calcTimer = null;
   let pkgCount = 1;
@@ -3533,9 +3454,10 @@ body {
       fqDraft.extras.push(e);
       fqOpen = fqKeyOf(e);
     }
-    document.getElementById('fq-title').textContent = `Edit Quote for ${draft.name}`;
-    // Location modules can be deleted whole, however many methods they hold
-    document.getElementById('fq-delete-all-btn').classList.toggle('visible', draft.kind === 'custom');
+    document.getElementById('fq-title').textContent = draft.isNew ? 'Add Your Own Quote' : `Edit Quote for ${draft.name}`;
+    document.getElementById('fq-save-btn').textContent = draft.isNew ? 'Save' : 'Update';
+    // Location modules can be deleted whole, however many methods they hold, but not while being added (Cancel instead)
+    document.getElementById('fq-delete-all-btn').classList.toggle('visible', draft.kind === 'custom' && !draft.isNew);
     fqRender();
     document.getElementById('freight-edit-overlay').classList.remove('hidden');
   }
@@ -3711,7 +3633,8 @@ body {
       const taken = fqDraft.extras.filter(e => e !== t).map(e => e.method);
       const opts = fqDraft.extraOptions.filter(m => !taken.includes(m)).map(m =>
         `<div class="custom-select-option ${m === t.method ? 'active' : ''}" onclick="fqPickMethod('${key}','${m}')">${m}</div>`).join('');
-      body = `<div class="modal-field"><label class="modal-label">Shipping Method</label>${fqSelectHTML(`fq-${key}-method`, t.method, opts, false)}</div>
+      const locField = fqDraft.isNew && fqDraft.extras[0] === t ? fqLocationHTML() : '';
+      body = `${locField}<div class="modal-field"><label class="modal-label">Shipping Method</label>${fqSelectHTML(`fq-${key}-method`, t.method, opts, false)}</div>
         ${fqTimeHTML(key, t)}
         ${fqFlatPriceHTML(key, t)}`;
     }
@@ -3719,8 +3642,8 @@ body {
     const chevron = `<svg class="method-header-chevron ${open ? '' : 'collapsed'}" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.1998 10.3429L11.9998 16.2397L4.7998 10.3429L6.00801 8.85693L11.9998 13.7589L17.9916 8.85693L19.1998 10.3429Z" fill="#222222"/></svg>`;
     return `<div class="fq-section ${open ? '' : 'is-collapsed'}" data-key="${key}">
       <div class="fq-head">
-        <button class="method-header" type="button" onclick="fqToggle('${key}')">${chevron}<span>Shipping Method${headLabel ? ':' : ''} <strong>${headLabel || ''}</strong></span></button>
-        ${isExtra && (fqDraft.kind !== 'custom' || fqDraft.extras.length > 1) ? `<button class="fq-delete" type="button" onclick="fqDeleteExtra('${key}')">Delete</button>` : ''}
+        <button class="method-header" type="button" onclick="fqToggle('${key}')">${chevron}${fqDraft.isNew ? `<span style="font-weight:600">Flat Rate${t.method ? ' ' + t.method : ''}</span>` : `<span>Shipping Method${headLabel ? ':' : ''} <strong>${headLabel || ''}</strong></span>`}</button>
+        ${isExtra && (fqDraft.isNew ? fqDraft.extras[0] !== t : (fqDraft.kind !== 'custom' || fqDraft.extras.length > 1)) ? `<button class="fq-delete" type="button" onclick="fqDeleteExtra('${key}')">Delete</button>` : ''}
       </div>
       <div class="method-content ${open ? '' : 'collapsed'}">${body}</div>
     </div>`;
@@ -3803,7 +3726,7 @@ body {
       const timeOk = t.timeLo !== '' && t.timeLo !== undefined && t.timeHi !== '' && t.timeHi !== undefined && parseFloat(t.timeHi) >= parseFloat(t.timeLo);
       return (t.quoteType === 'Calculated Quote' || timeOk) && (t.quoteType !== 'Flat Rate' || pos(t.customPrice)) && ppqOk(t);
     });
-    return rowsOk && fqDraft.extras.every(e =>
+    return rowsOk && (!fqDraft.isNew || !!fqDraft.location) && fqDraft.extras.every(e =>
       e.method && e.price !== '' && parseFloat(e.price) >= 0 && e.timeLo !== '' && e.timeHi !== '' &&
       parseFloat(e.timeHi) >= parseFloat(e.timeLo) && ppqOk(e));
   }
@@ -3835,6 +3758,9 @@ body {
       fqDraft.order.forEach(k => { d[k] = clean(fqDraft.rows[k]); });
       d.extras = extras;
       renderFreightCards();
+    } else if (fqDraft.isNew) {
+      extras.forEach(e => addCustomRow(fqDraft.location, e));
+      renderCustomCards();
     } else if (fqDraft.kind === 'custom') {
       const c = customRegions.find(x => x.id === r);
       c.rows = extras;
@@ -3952,91 +3878,37 @@ body {
     }
   });
 
-  function getModalSelectValue(id) {
-    return document.getElementById(id).querySelector('.custom-select-value').textContent.trim();
-  }
-
-  function pickModalOption(optionEl, selectId) {
-    const selectEl = document.getElementById(selectId);
-    selectEl.querySelector('.custom-select-value').textContent = optionEl.textContent;
-    selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
-    optionEl.classList.add('active');
-    selectEl.classList.remove('open');
-    if (editingCard) quoteModalChanged = true;
-    checkModalSave();
-  }
-
-  function onQuoteInput() {
-    if (editingCard) quoteModalChanged = true;
-    checkModalSave();
-  }
-
-  function populateMethodOptions() {
-    // Locations outside US / Europe / Rest of the World use generic parcel names (no DHL)
-    const methods = ['Standard Parcel', 'Express Parcel', 'Front-Door Delivery', 'In-Home Delivery'];
-    const dropdown = document.querySelector('#modal-method-select .custom-select-dropdown');
-    dropdown.innerHTML = methods.map(m =>
-      `<div class="custom-select-option" onclick="pickModalOption(this,'modal-method-select')">${m}</div>`
-    ).join('');
-  }
-
+  // ── Add Your Own Quote ────────────────────────────────────────────
+  // Uses the same accordion modal as Edit Quote. The first method carries the Location dropdown (picked
+  // once per module); further methods don't repeat it. The module can't be deleted while it's being
+  // added: sellers Cancel instead. Once saved, Edit Quote offers Delete for the whole module.
+  const QUOTE_LOCATIONS = ['Canada', 'Australia', 'Japan', 'United Kingdom'];
+  // Locations outside US / Europe / Rest of the World use generic parcel names (no DHL)
+  const QUOTE_BASE_METHODS = ['Standard Parcel', 'Express Parcel', 'Front-Door Delivery', 'In-Home Delivery'];
   // Locations that already have a module aren't offered again: sellers add more quotes in that module
+  const availableQuoteLocations = () => QUOTE_LOCATIONS.filter(l => !customRegions.some(c => c.location === l));
+
   function syncLocationOptions() {
-    const taken = customRegions.map(c => c.location);
-    const opts = Array.from(document.querySelectorAll('#modal-location-select .custom-select-option'));
-    opts.forEach(o => o.classList.toggle('hidden', taken.includes(o.textContent.trim())));
     // Nothing left to add: the CTA goes away
     const btn = document.getElementById('add-own-quote-btn');
-    if (btn) btn.classList.toggle('hidden', opts.every(o => o.classList.contains('hidden')));
+    if (btn) btn.classList.toggle('hidden', !availableQuoteLocations().length);
   }
 
   function openQuoteModal() {
-    quoteModalChanged = false;
-    syncLocationOptions();
-    populateMethodOptions();
-    ['modal-location-select','modal-method-select'].forEach(id => {
-      const el = document.getElementById(id);
-      el.querySelector('.custom-select-value').textContent = '';
-      el.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
-      el.classList.remove('open');
-    });
-    document.getElementById('modal-price').value     = '';
-    document.getElementById('modal-days-from').value = '';
-    document.getElementById('modal-days-to').value   = '';
-    document.getElementById('modal-save-btn').textContent = 'Save';
-    document.getElementById('modal-save-btn').disabled    = true;
-    document.getElementById('modal-title').textContent    = 'Add Your Own Quote';
-    document.getElementById('modal-delete-btn').classList.remove('visible');
-    document.getElementById('quote-modal-overlay').classList.remove('hidden');
+    fqOpenModal({ kind: 'custom', isNew: true, region: null, name: '', location: '', order: [], rows: {}, meta: {},
+      extras: [fqNewExtra()], extraOptions: QUOTE_BASE_METHODS }, false);
   }
 
-  function closeQuoteModal() {
-    document.getElementById('quote-modal-overlay').classList.add('hidden');
-    editingCard = null;
+  function fqLocationHTML() {
+    const opts = availableQuoteLocations().map(l =>
+      `<div class="custom-select-option ${l === fqDraft.location ? 'active' : ''}" onclick="fqPickLocation('${l}')">${l}</div>`).join('');
+    return `<div class="modal-field"><label class="modal-label">Location</label>${fqSelectHTML('fq-location', fqDraft.location, opts, false)}</div>`;
   }
 
-  function checkModalSave() {
-    const location = getModalSelectValue('modal-location-select');
-    const method   = getModalSelectValue('modal-method-select');
-    const price    = document.getElementById('modal-price').value;
-    const daysFrom = document.getElementById('modal-days-from').value;
-    const daysTo   = document.getElementById('modal-days-to').value;
-    const allFilled = location && method && price !== '' && parseFloat(price) >= 0
-                      && daysFrom !== '' && daysTo !== '';
-    const ready = allFilled && (!editingCard || quoteModalChanged);
-    document.getElementById('modal-save-btn').disabled = !ready;
-  }
-
-  function saveQuote() {
-    const location = getModalSelectValue('modal-location-select');
-    const method   = getModalSelectValue('modal-method-select');
-    const price    = parseFloat(document.getElementById('modal-price').value);
-    const daysFrom = document.getElementById('modal-days-from').value;
-    const daysTo   = document.getElementById('modal-days-to').value;
-
-    addCustomRow(location, { method: method.replace(/\s*\([^)]*\)$/, '').trim(), timeLo: parseInt(daysFrom, 10), timeHi: parseInt(daysTo, 10), price });
-    renderCustomCards();
-    closeQuoteModal();
+  function fqPickLocation(loc) {
+    fqDraft.location = loc;
+    fqChanged = true;
+    fqRender();
   }
 
   function toggleMeatball(btn) {
@@ -4104,16 +3976,6 @@ body {
       extras: fqCopyExtras(c.rows), extraOptions: options }, addNew);
   }
 
-  function deleteFromModal() {
-    if (editingCard) editingCard.remove();
-    closeQuoteModal();
-  }
-
-
-  // Close modal on overlay click
-  document.getElementById('quote-modal-overlay').addEventListener('click', function(e) {
-    if (e.target === this) closeQuoteModal();
-  });
 
   let estimatePkgIndex = null;
 
